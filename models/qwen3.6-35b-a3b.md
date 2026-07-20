@@ -208,12 +208,14 @@ Long server example (game / agent work):
 
 ---
 
-## Offload intuition for this model
+## Offload notes (this machine)
 
-1. **Weights do not fit in VRAM** for Q4–Q6 — system **RAM is mandatory**.
-2. Prefer **horizontal** MoE (`-ngl 99` + moderate `-ncmoe`) over pure vertical `-ngl 16–24` for gen speed.
-3. Sweet spots on this box were often **ncmoe ~48 (Q4 TQ)** or **ncmoe ~16–32 (TQ3 / Q5 / Q6)** — going too low can stall on VRAM or PCIe.
-4. TQ3 fork + TQ3 weights = best tok/s seen for Qwen on this 3060.
+| Observation | Detail |
+|-------------|--------|
+| Q4–Q6 weight size | exceeds 12GB VRAM; host RAM used for experts |
+| Vertical vs horizontal | see ngl-only vs ncmoe tables above |
+| ncmoe values used often | ~48 (Q4 TurboQuant), ~16–32 (TQ3 / Q5 / Q6) |
+| Highest Qwen tg in this lab | TQ3 fork + TQ3_4S weights |
 
 ## Related
 
