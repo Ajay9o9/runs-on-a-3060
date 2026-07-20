@@ -12,8 +12,9 @@ Dense-ish 12B-class model — **can fully land on 12GB** at Q5/Q6 with careful K
 | `gemma-4-12b-it-UD-Q5_K_XL.gguf` | ~8.0–8.8 GiB | Full GPU friendly |
 | `gemma-4-12b-it-UD-Q6_K_XL.gguf` | ~9.9 GiB | Peak ~**11261 MB**, no RAM spillover noted |
 | `gemma-4-12b-it-Q8_0.gguf` | ~11.8 GiB | Needs partial `-ngl` (~40); peak ~**11171 MB** at ngl 40 |
-| `gemma-4-12b-it-qat-UD-Q4_K_XL.gguf` | QAT Q4 | Long context via llama-benchy; ~**9980 MB** VRAM + ~**7.5 GB** RAM in one server run |
-| `gemma-4-12B-it-MTP-Q8_0.gguf` | MTP **draft** | Used as `--model-draft` with Q5 base |
+| `gemma-4-12b-it-UD-Q4_K_XL.gguf` | Unsloth Q4 (non-QAT) | Long-context llama-benchy baseline |
+| `gemma-4-12b-it-qat-UD-Q4_K_XL.gguf` | Unsloth **QAT** Q4 | Long context; with/without MTP — full section below |
+| `gemma-4-12B-it-MTP-Q8_0.gguf` | MTP **draft** | Used as `--model-draft` with Q5 and QAT bases |
 
 Vision: `mmproj-F16.gguf`.
 

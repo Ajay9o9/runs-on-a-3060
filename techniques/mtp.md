@@ -29,15 +29,19 @@
   --spec-type mtp --spec-draft-n-max 3
 ```
 
-Gemma draft-MTP server:
+Gemma draft-MTP server (Q5 or QAT Q4 base + MTP draft GGUF):
 
 ```bash
 ./build/bin/llama-server \
-  -m $MODEL_DIR/gemma-4-12b-it-UD-Q5_K_XL.gguf \
+  -m $MODEL_DIR/gemma-4-12b-it-qat-UD-Q4_K_XL.gguf \
+  --mmproj $MODEL_DIR/mmproj-F16.gguf \
   --model-draft $MODEL_DIR/gemma-4-12B-it-MTP-Q8_0.gguf \
-  ... \
-  --spec-type draft-mtp --spec-draft-n-max 4
+  -c 131072 -b 512 -ub 512 -t 24 \
+  -fa 1 -ctk q8_0 -ctv q8_0 \
+  --jinja --spec-type draft-mtp --spec-draft-n-max 4
 ```
+
+QAT Q4 with/without MTP long-context tables: [../models/gemma4-12b.md](../models/gemma4-12b.md).
 
 ## Caveats from lab
 

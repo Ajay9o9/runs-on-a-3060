@@ -59,6 +59,9 @@ Prefill and generation are **both** logged. Do not compare a row’s tg to anoth
 | Qwen3.6 35B-A3B | Q4_K_XL vertical | same | ngl 20 | **turbo4 / turbo3** | pp4096 ~**560** | ~**30** | same KV; slower gen |
 | Gemma 4 12B | Q5_K_XL | llama.cpp | full GPU | **q8_0 / q8_0** | pp4096 ~**1070–1150** | ~**30–33** | |
 | Gemma 4 12B | Q6_K_XL | llama.cpp | full GPU | **q8_0 / q8_0** | pp4096 ~**1110** | ~**26** | peak VRAM ~11.3 GB |
+| Gemma 4 12B | Unsloth Q4 non-QAT @ 32k depth | llama.cpp + [llama-benchy](https://github.com/eugr/llama-benchy) | full GPU | **q8_0 / q8_0** | pp4096@d32k ~**820** | tg256 ~**37** | ~9980 MB VRAM |
+| Gemma 4 12B | Unsloth **QAT** Q4 @ 32k, no MTP | same | full GPU | **q8_0 / q8_0** | pp4096@d32k ~**880–1000** | tg256 ~**34–39** | ~9380 MB VRAM |
+| Gemma 4 12B | Unsloth **QAT** Q4 @ 32k, **MTP n-max 4** | same + draft MTP | full GPU | **q8_0 / q8_0** | pp4096@d32k ~**1011** | tg256 ~**40.5** | see MTP section |
 | Gemma 4 26B-A4B | Q6, ncmoe 32 | llama.cpp | ngl 99, ncmoe 32 | **q8_0 / q8_0** | pp4096 ~**540** | ~**34** | peak VRAM ~3.8 GB |
 | Gemma 4 26B-A4B | Q6, ncmoe 20 | llama.cpp | ngl 99, ncmoe 20 | **q8_0 / q8_0** | pp4096 ~**690** | ~**39** | peak VRAM ~10.1 GB |
 | Ternary Bonsai 27B | Q2_0 | llama-server + [llama-benchy](https://github.com/eugr/llama-benchy) | ngl 999 | **not recorded** | pp24576 ~**440** | tg256 ~**23–25** | long PP tests 24k–49k |
