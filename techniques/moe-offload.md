@@ -10,7 +10,8 @@ Flag notes and measured deltas on the lab machine.
 
 Other RAM sizes will not match hybrid Q5/Q6 35B host footprints here.
 
-**KV for the Q4 TurboQuant vertical/horizontal series below:** `-ctk turbo4 -ctv turbo3`.  
+**Runtime for the Q4 series below:** [TheTom/llama-cpp-turboquant](https://github.com/TheTom/llama-cpp-turboquant).  
+**KV:** `-ctk turbo4 -ctv turbo3`.  
 Offload and KV both change VRAM; log both. See [kv-cache.md](kv-cache.md).
 
 ## Vertical split (`-ngl`)

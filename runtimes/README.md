@@ -1,16 +1,15 @@
 # runtimes/
 
-Builds used for the logs. Not limited to upstream llama.cpp.
+Builds used for the logs.
 
-| Runtime | Repo | Used for |
-|---------|------|----------|
+| Runtime | Repo / branch | Used for |
+|---------|---------------|----------|
 | llama.cpp | [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp) | Gemma, general GGUF, server, MTP branches |
 | ik_llama.cpp | [ikawrakow/ik_llama.cpp](https://github.com/ikawrakow/ik_llama.cpp) | Qwen3.6 Unsloth Q6, expert offload |
 | llama.cpp-tq3 | [turbo-tan/llama.cpp-tq3](https://github.com/turbo-tan/llama.cpp-tq3) | TQ3_4S, `ctv tq3_0` |
-| TurboQuant branch | community | `turbo4` / `turbo3` KV on Q4_K_XL |
-| llama.cpp MTP | branch / PR builds | Qwen + Gemma MTP |
-| llama-diffusion-gemma | diffusion CLI | Diffusion Gemma 26B-A4B |
-| llama-benchy | HTTP client | long-context server benches |
+| llama-cpp-turboquant | [TheTom/llama-cpp-turboquant](https://github.com/TheTom/llama-cpp-turboquant) | `turbo4` / `turbo3` KV on Q4_K_XL |
+| llama.cpp diffusion | **Branch `nvidia-diffusion-gemma`** (llama.cpp tree; lab remote [lnigam/llama.cpp](https://github.com/lnigam/llama.cpp) tracking `lnigam/nvidia-diffusion-gemma`) | `llama-diffusion-gemma-cli` for Diffusion Gemma — **not a separate product**, still llama.cpp |
+| llama-benchy | [eugr/llama-benchy](https://github.com/eugr/llama-benchy) | long-context server benches over HTTP |
 
 ## Logged fields
 

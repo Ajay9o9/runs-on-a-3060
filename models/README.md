@@ -12,7 +12,7 @@ Every LLM page should list **KV cache** (`-ctk` / `-ctv`). Catalog: [../techniqu
 | Qwen3.6 27B MTP | [qwen3.6-27b.md](qwen3.6-27b.md) | partial | MTP flags | q4_0/q4_0 or q8_0/q8_0 |
 | Gemma 4 12B | [gemma4-12b.md](gemma4-12b.md) | yes (Q5/Q6) | full GPU; Q8 partial `-ngl` | **q8_0 / q8_0** |
 | Gemma 4 26B-A4B (MoE) | [gemma4-26b-a4b.md](gemma4-26b-a4b.md) | hybrid | `-ncmoe` | **q8_0 / q8_0** |
-| Diffusion Gemma 26B-A4B | [diffusion-gemma.md](diffusion-gemma.md) | hybrid | diffusion CLI, `-ngl 15` | **not recorded** |
+| Diffusion Gemma 26B-A4B | [diffusion-gemma.md](diffusion-gemma.md) | hybrid | llama.cpp branch `nvidia-diffusion-gemma`, `-ngl 15` | **not recorded** |
 | Ternary Bonsai 27B | [bonsai-ternary-27b.md](bonsai-ternary-27b.md) | full GPU in log | llama-server + benchy | **not recorded** |
 
 ## Flag reference

@@ -1,6 +1,8 @@
 # Diffusion Gemma 26B-A4B on RTX 3060
 
-**Not image generation.** This is a **text** diffusion language model (denoising tokens), run via `llama-diffusion-gemma-cli`.
+**Not image generation.** This is a **text** diffusion language model (denoising tokens).
+
+**Runtime:** llama.cpp — **not a separate project**. Lab build was branch **`nvidia-diffusion-gemma`** (remote [lnigam/llama.cpp](https://github.com/lnigam/llama.cpp), tracking `lnigam/nvidia-diffusion-gemma`; upstream tree is still [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp)). Binary: `llama-diffusion-gemma-cli`.
 
 ## Model
 

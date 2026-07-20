@@ -1,6 +1,9 @@
 # Bonsai Image 4B (PrismML) on RTX 3060
 
-Local **text-to-image** model (not llama.cpp). Ternary (~1.58-bit) and binary (1-bit) variants via [Bonsai-image-demo](https://github.com/PrismML-Eng/Bonsai-image-demo) + gemlite GPU backend.
+Local **text-to-image** model (not llama.cpp). Ternary (~1.58-bit) and binary (1-bit) variants.
+
+**Repo:** [PrismML-Eng/Bonsai-image-demo](https://github.com/PrismML-Eng/Bonsai-image-demo)  
+**Stack:** studio + gemlite GPU backend
 
 ## Models
 

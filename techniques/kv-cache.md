@@ -16,7 +16,7 @@ Bench tables often print these as `type_k` / `type_v`.
 | type_k (`-ctk`) | type_v (`-ctv`) | Where used |
 |-----------------|-----------------|------------|
 | `q4_0` | `tq3_0` | Qwen TQ3_4S on **llama.cpp-tq3** |
-| `turbo4` | `turbo3` | Qwen Q4_K_XL on **TurboQuant** branch |
+| `turbo4` | `turbo3` | Qwen Q4_K_XL on [TheTom/llama-cpp-turboquant](https://github.com/TheTom/llama-cpp-turboquant) |
 | `q8_0` | `q8_0` | Most Gemma 4 runs; many Qwen Q5/Q6 mainline/ik horizontal runs; MTP short-prompt sweeps |
 | `q4_0` | `q4_0` | Some ik_llama Q5/Q6 with `-ot exps=CPU`; early MTP bench lines |
 

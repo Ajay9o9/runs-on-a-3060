@@ -6,7 +6,7 @@
 
 | File | Approx size | Runtime that mattered |
 |------|-------------|------------------------|
-| `Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf` | ~20.8 GiB | TurboQuant branch (`turbo4`/`turbo3` KV) |
+| `Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf` | ~20.8 GiB | [TheTom/llama-cpp-turboquant](https://github.com/TheTom/llama-cpp-turboquant) (`turbo4`/`turbo3` KV) |
 | `Qwen3.6-35B-A3B-UD-Q5_K_M.gguf` | ~24.6 GiB | ik_llama + mainline |
 | `Qwen3.6-35B-A3B-UD-Q6_K.gguf` | ~27.3 GiB | **ik_llama** preferred in lab |
 | `Qwen3.6-35B-A3B-TQ3_4S.gguf` | ~12.4 GiB | **llama.cpp-tq3** |
@@ -28,8 +28,8 @@ KV is part of the result. Do not compare tg across rows with different `ctk`/`ct
 | Q5, mainline, ncmoe 32 | **q8_0 / q8_0** | **~48** | pp4k ~500 | experts on CPU → many GB RAM |
 | Q5, ik_llama, exps=CPU | **q4_0 / q4_0** | **~46** | pp4k ~825 | experts on CPU |
 | Q6, ik_llama, ncmoe 32 | **q8_0 / q8_0** | **~47** | pp4k ~800 | experts on CPU |
-| Q4 TurboQuant, ncmoe 48 | **turbo4 / turbo3** | **~43** | pp4k ~480 | highest tg in that ngl99 sweep |
-| Q4 TurboQuant, ngl 20 vertical | **turbo4 / turbo3** | **~30** | pp4k ~560 | fewer layers on GPU |
+| Q4 [turboquant](https://github.com/TheTom/llama-cpp-turboquant), ncmoe 48 | **turbo4 / turbo3** | **~43** | pp4k ~480 | highest tg in that ngl99 sweep |
+| Q4 [turboquant](https://github.com/TheTom/llama-cpp-turboquant), ngl 20 vertical | **turbo4 / turbo3** | **~30** | pp4k ~560 | fewer layers on GPU |
 | MTP on, n-max ~3 (typical short-prompt sweeps) | **q8_0 / q8_0** | **~31–36** vs ~21 off | — | +~2–2.5 GB VRAM for drafts |
 
 Full fork tables: [../runtimes/comparison.md](../runtimes/comparison.md). KV catalog: [../techniques/kv-cache.md](../techniques/kv-cache.md).

@@ -103,6 +103,8 @@ At **ngl 40**, peak VRAM ~**11171 MB**:
 
 ### llama-benchy (HTTP) at filled depths
 
+Tool: [eugr/llama-benchy](https://github.com/eugr/llama-benchy)
+
 ```bash
 llama-benchy \
   --base-url http://127.0.0.1:8080 \

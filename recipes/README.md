@@ -18,6 +18,7 @@ Always set **`-ctk` / `-ctv`** for LLM — see [../techniques/kv-cache.md](../te
 
 ## Qwen 35B Q4 TurboQuant KV
 
+**Runtime:** [TheTom/llama-cpp-turboquant](https://github.com/TheTom/llama-cpp-turboquant)  
 **KV:** `turbo4` / `turbo3`
 
 ```bash

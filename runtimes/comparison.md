@@ -133,9 +133,9 @@ sudo nvidia-smi -lgc 1550,1550
 
 ---
 
-## 4) TurboQuant KV (TheTom-style) — Unsloth Q4, vertical vs horizontal
+## 4) TurboQuant KV — Unsloth Q4, vertical vs horizontal
 
-**Runtime:** TurboQuant-enabled llama.cpp branch  
+**Runtime:** [TheTom/llama-cpp-turboquant](https://github.com/TheTom/llama-cpp-turboquant)  
 **Model:** `Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf` (~20.81 GiB)  
 **KV:** `-ctk turbo4 -ctv turbo3`
 
@@ -266,8 +266,8 @@ With `-n-cpu-moe` instead of tensor override:
 | ik_llama | Q5 | exps=CPU | **q4_0 / q4_0** | **~46 t/s** |
 | ik_llama | Q6 | ncmoe 32 | **q8_0 / q8_0** | **~47 t/s** |
 | mainline llama.cpp | Q5 | ncmoe 32 | **q8_0 / q8_0** | **~48 t/s** |
-| TurboQuant branch | Q4_K_XL | horizontal ncmoe 48 | **turbo4 / turbo3** | **~43 t/s** |
-| TurboQuant branch | Q4_K_XL | vertical ngl 20 | **turbo4 / turbo3** | **~30 t/s** |
+| [TheTom/llama-cpp-turboquant](https://github.com/TheTom/llama-cpp-turboquant) | Q4_K_XL | horizontal ncmoe 48 | **turbo4 / turbo3** | **~43 t/s** |
+| [TheTom/llama-cpp-turboquant](https://github.com/TheTom/llama-cpp-turboquant) | Q4_K_XL | vertical ngl 20 | **turbo4 / turbo3** | **~30 t/s** |
 
 **System RAM is part of the result.** Treat hybrid rows as “3060 + strong CPU + **64 GB RAM**,” not “3060 alone.”  
 **KV is part of the result.** See [../techniques/kv-cache.md](../techniques/kv-cache.md).
