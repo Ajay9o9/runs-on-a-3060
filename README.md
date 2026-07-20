@@ -114,7 +114,7 @@ export MODEL_DIR=/path/to/ggufs
 ./build/bin/llama-server ... -ctk <type> -ctv <type> ...
 ```
 
-**Logged fields (LLM):** runtime, `-ngl`, `-ncmoe` / expert offload, `-t`, **`-ctk` / `-ctv`**, pp t/s, tg t/s, peak VRAM, host RAM context.
+**Logged fields (LLM):** runtime, `-ngl`, `-ncmoe` / expert offload, `-t`, **`-ctk` / `-ctv`**, **pp (prefill) t/s**, **tg (generation) t/s**, peak VRAM, host RAM context. MTP rows also need `n-max` / draft settings.
 
 ## Name disambiguation
 
