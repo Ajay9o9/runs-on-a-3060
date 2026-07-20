@@ -21,7 +21,8 @@
   --host 127.0.0.1 --port 8000
 ```
 
-**Offload:** `-ngl 999` = try full GPU. Host still has **64 GB RAM** for OS / runtime overhead.
+**Offload:** `-ngl 999` = try full GPU. Host still has **64 GB RAM** for OS / runtime overhead.  
+**KV:** **not recorded** in the lab log (no `-ctk`/`-ctv` in the saved command). Runtime default unknown — do not assume q8_0.
 
 ## llama-benchy (against server)
 

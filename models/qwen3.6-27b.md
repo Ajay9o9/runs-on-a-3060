@@ -10,6 +10,8 @@ Thinner notes than 35B-A3B, but present in the lab log.
 
 ## Bench command (experts CPU)
 
+**KV:** `q4_0` / `q4_0`
+
 ```bash
 ./build/bin/llama-bench \
   -m $MODEL_DIR/Qwen3.6-27B-MTP-Q4_K_M.gguf \
@@ -20,6 +22,8 @@ Thinner notes than 35B-A3B, but present in the lab log.
 ```
 
 ## CLI with draft-MTP (long prompt budget)
+
+**KV:** `q8_0` / `q8_0`
 
 ```bash
 ./build/bin/llama-cli \

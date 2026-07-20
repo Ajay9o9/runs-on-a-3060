@@ -19,14 +19,16 @@ Details: [HARDWARE.md](HARDWARE.md).
 
 Hybrid MoE configs place large expert weights in **system RAM**. Match your RAM when comparing.
 
+**KV cache is required context for LLM rows.** Flags: `-ctk` (K) / `-ctv` (V). See [techniques/kv-cache.md](techniques/kv-cache.md).
+
 ## Index
 
 | Path | Contents |
 |------|----------|
-| [models/](models/) | LLM models: commands, offload flags, pp/tg, VRAM when recorded |
+| [models/](models/) | LLM models: commands, offload, **KV**, pp/tg, VRAM |
 | [image/](image/) | Image gen (Bonsai Image 4B) |
 | [runtimes/](runtimes/) | llama.cpp / ik_llama / tq3 / other builds used |
-| [techniques/](techniques/) | MoE flags, MTP, power limit measurements |
+| [techniques/](techniques/) | KV cache, MoE flags, MTP, power limit |
 | [recipes/](recipes/) | Short command snippets |
 | [data/underclock/](data/underclock/) | GPU sample CSVs and plots |
 
@@ -36,17 +38,19 @@ Values are from this lab only. Full commands live on the model/runtime pages.
 
 ### LLM (tg ≈ tokens/s generation)
 
-| Model | Quant / setup | Runtime | Offload | tg | Notes |
-|-------|---------------|---------|---------|---:|-------|
-| Qwen3.6 35B-A3B | TQ3_4S | llama.cpp-tq3 | ngl 99, ncmoe 16–32 | ~54–60 | hybrid |
-| Qwen3.6 35B-A3B | Q5 / Q6 Unsloth | ik_llama / mainline | exps CPU / ncmoe 32 | ~46–48 | large host RAM |
-| Qwen3.6 35B-A3B | Q4_K_XL, turbo KV | TurboQuant branch | ngl 99, ncmoe 48 | ~43 | vs ~30 @ ngl 20 |
-| Qwen3.6 35B MTP | MTP Q6 | MTP branch | n-max 2–3 | ~31–36 | higher VRAM than no-MTP |
-| Gemma 4 12B | Q5_K_XL | llama.cpp | full GPU | ~30–33 | |
-| Gemma 4 12B | Q6_K_XL | llama.cpp | full GPU | ~26 | peak VRAM ~11.3 GB |
-| Gemma 4 26B-A4B | Q6 | llama.cpp | ncmoe 20–32 | ~33–39 | VRAM ~3.8–10.1 GB |
-| Ternary Bonsai 27B | Q2_0 | llama-server | ngl 999 | ~23–25 | LLM, not image |
-| Diffusion Gemma 26B | Q4 | diffusion-cli | ngl 15 | ~0.5 s/step | text diffusion; peak ~10450 MB |
+| Model | Quant / setup | Runtime | Offload | KV (`ctk`/`ctv`) | tg | Notes |
+|-------|---------------|---------|---------|------------------|---:|-------|
+| Qwen3.6 35B-A3B | TQ3_4S | llama.cpp-tq3 | ngl 99, ncmoe 16–32 | **q4_0 / tq3_0** | ~54–60 | hybrid |
+| Qwen3.6 35B-A3B | Q5 Unsloth | mainline | ncmoe 32 | **q8_0 / q8_0** | ~48 | large host RAM |
+| Qwen3.6 35B-A3B | Q5 Unsloth | ik_llama | exps=CPU | **q4_0 / q4_0** | ~46 | large host RAM |
+| Qwen3.6 35B-A3B | Q6 Unsloth | ik_llama | ncmoe 32 | **q8_0 / q8_0** | ~47 | large host RAM |
+| Qwen3.6 35B-A3B | Q4_K_XL | TurboQuant branch | ngl 99, ncmoe 48 | **turbo4 / turbo3** | ~43 | vs ~30 @ ngl 20 same KV |
+| Qwen3.6 35B MTP | MTP Q6 | MTP branch | n-max 2–3 | **q8_0 / q8_0** | ~31–36 | higher VRAM than no-MTP |
+| Gemma 4 12B | Q5_K_XL | llama.cpp | full GPU | **q8_0 / q8_0** | ~30–33 | |
+| Gemma 4 12B | Q6_K_XL | llama.cpp | full GPU | **q8_0 / q8_0** | ~26 | peak VRAM ~11.3 GB |
+| Gemma 4 26B-A4B | Q6 | llama.cpp | ncmoe 20–32 | **q8_0 / q8_0** | ~33–39 | VRAM ~3.8–10.1 GB |
+| Ternary Bonsai 27B | Q2_0 | llama-server | ngl 999 | **not recorded** | ~23–25 | LLM, not image |
+| Diffusion Gemma 26B | Q4 | diffusion-cli | ngl 15 | **not recorded** | ~0.5 s/step | text diffusion; peak ~10450 MB |
 
 ### Image
 
@@ -60,8 +64,8 @@ Values are from this lab only. Full commands live on the model/runtime pages.
 |---------|------|----------|
 | llama.cpp | [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp) | Gemma, general GGUF, server |
 | ik_llama.cpp | [ikawrakow/ik_llama.cpp](https://github.com/ikawrakow/ik_llama.cpp) | Qwen Q5/Q6 hybrid |
-| llama.cpp-tq3 | [turbo-tan/llama.cpp-tq3](https://github.com/turbo-tan/llama.cpp-tq3) | TQ3_4S |
-| TurboQuant branch | community fork | turbo4 / turbo3 KV |
+| llama.cpp-tq3 | [turbo-tan/llama.cpp-tq3](https://github.com/turbo-tan/llama.cpp-tq3) | TQ3_4S, `ctv tq3_0` |
+| TurboQuant branch | community fork | `turbo4` / `turbo3` KV |
 | MTP / draft-mtp | branch builds | speculative decoding |
 | llama-diffusion-gemma | diffusion CLI | Diffusion Gemma |
 | llama-benchy | HTTP client | server-side long-context benches |
@@ -73,11 +77,11 @@ Side-by-side commands: [runtimes/comparison.md](runtimes/comparison.md).
 ```bash
 export MODEL_DIR=/path/to/ggufs
 # from the runtime build directory
-./build/bin/llama-bench ...
-./build/bin/llama-server ...
+./build/bin/llama-bench ... -ctk <type> -ctv <type> ...
+./build/bin/llama-server ... -ctk <type> -ctv <type> ...
 ```
 
-Logged fields when available: runtime, flags (`-ngl`, `-ncmoe`, `-t`, `-ctk`/`-ctv`), pp t/s, tg t/s, peak VRAM, host RAM context.
+**Logged fields (LLM):** runtime, `-ngl`, `-ncmoe` / expert offload, `-t`, **`-ctk` / `-ctv`**, pp t/s, tg t/s, peak VRAM, host RAM context.
 
 ## Name disambiguation
 
@@ -89,7 +93,7 @@ Logged fields when available: runtime, flags (`-ngl`, `-ncmoe`, `-t`, `-ctk`/`-c
 
 ## Contributing
 
-[CONTRIBUTING.md](CONTRIBUTING.md) — include GPU, CPU, **system RAM**, runtime, exact command, and numbers.
+[CONTRIBUTING.md](CONTRIBUTING.md) — GPU, CPU, system RAM, runtime, **KV cache types**, exact command, numbers.
 
 ## License
 

@@ -3,7 +3,8 @@
 **Host:** Ryzen 9 9900X · **64 GB** RAM · Ubuntu 24.04  
 **GPU:** RTX 3060 ~11887 MiB  
 
-Same class of model (Qwen3.6 MoE 35B-A3B), different runtimes / quants / offload. Commands sanitized.
+Same class of model (Qwen3.6 MoE 35B-A3B), different runtimes / quants / offload / **KV**. Commands sanitized.  
+Each section states **KV (`-ctk` / `-ctv`)**. Catalog: [../techniques/kv-cache.md](../techniques/kv-cache.md).
 
 ---
 
@@ -11,7 +12,8 @@ Same class of model (Qwen3.6 MoE 35B-A3B), different runtimes / quants / offload
 
 **Runtime:** [ik_llama.cpp](https://github.com/ikawrakow/ik_llama.cpp)  
 **Model:** `Qwen3.6-35B-A3B-UD-Q5_K_M.gguf` (~24.63 GiB weights)  
-**Offload:** full layer count on GPU path + **all experts on CPU** (`-ot exps=CPU`)
+**Offload:** full layer count on GPU path + **all experts on CPU** (`-ot exps=CPU`)  
+**KV:** `-ctk q4_0 -ctv q4_0`
 
 ```bash
 ./build/bin/llama-bench \
@@ -35,7 +37,8 @@ Same class of model (Qwen3.6 MoE 35B-A3B), different runtimes / quants / offload
 
 **Runtime:** llama.cpp (mainline-style flags)  
 **Model:** same Q5_K_M  
-**Offload:** `-ngl 99 -ncmoe 32` (attention on GPU; 32 expert layers forced to CPU)
+**Offload:** `-ngl 99 -ncmoe 32` (attention on GPU; 32 expert layers forced to CPU)  
+**KV:** `-ctk q8_0 -ctv q8_0`
 
 ```bash
 ./build/bin/llama-bench \
@@ -74,7 +77,8 @@ Same class of model (Qwen3.6 MoE 35B-A3B), different runtimes / quants / offload
 **Runtime:** [llama.cpp-tq3](https://github.com/turbo-tan/llama.cpp-tq3)  
 **Model:** `Qwen3.6-35B-A3B-TQ3_4S.gguf` (~12.38 GiB, ~4 bpw turbo four-scale)  
 **HF:** [YTan2000/Qwen3.6-35B-A3B-TQ3_4S](https://huggingface.co/YTan2000/Qwen3.6-35B-A3B-TQ3_4S)  
-**Offload:** `-ngl 99 -ncmoe 32` (or lower ncmoe for more experts on GPU)
+**Offload:** `-ngl 99 -ncmoe 32` (or lower ncmoe for more experts on GPU)  
+**KV:** `-ctk q4_0 -ctv tq3_0`
 
 ### 4k context
 
@@ -219,7 +223,8 @@ Longer context:
 ## 5) ik_llama.cpp — Unsloth Q6
 
 **Model:** `Qwen3.6-35B-A3B-UD-Q6_K.gguf` (~27.29 GiB)  
-**Note:** Lab observed Q6 more reliable on **ik_llama** than on stock llama.cpp at the time of testing.
+**Note:** Lab observed Q6 more reliable on **ik_llama** than on stock llama.cpp at the time of testing.  
+**KV:** first block `-ctk q4_0 -ctv q4_0` (`exps=CPU`); ncmoe blocks `-ctk q8_0 -ctv q8_0`.
 
 ```bash
 ./build/bin/llama-bench \
@@ -255,12 +260,14 @@ With `-n-cpu-moe` instead of tensor override:
 
 ## Summary table (gen speed, same GPU)
 
-| Runtime | Quant | Offload idea | Best tg (approx) |
-|---------|-------|--------------|------------------|
-| llama.cpp-tq3 | TQ3_4S | hybrid MoE | **~55–60 t/s** |
-| ik_llama | Q5 / Q6 | exps CPU / ncmoe | **~45–48 t/s** |
-| mainline llama.cpp | Q5 | ncmoe 32 | **~48 t/s** |
-| TurboQuant branch | Q4_K_XL | horizontal ncmoe 48 | **~43 t/s** |
-| TurboQuant branch | Q4_K_XL | vertical ngl 20 | **~30 t/s** |
+| Runtime | Quant | Offload | KV (`ctk`/`ctv`) | Best tg (approx) |
+|---------|-------|---------|------------------|------------------|
+| llama.cpp-tq3 | TQ3_4S | hybrid MoE | **q4_0 / tq3_0** | **~55–60 t/s** |
+| ik_llama | Q5 | exps=CPU | **q4_0 / q4_0** | **~46 t/s** |
+| ik_llama | Q6 | ncmoe 32 | **q8_0 / q8_0** | **~47 t/s** |
+| mainline llama.cpp | Q5 | ncmoe 32 | **q8_0 / q8_0** | **~48 t/s** |
+| TurboQuant branch | Q4_K_XL | horizontal ncmoe 48 | **turbo4 / turbo3** | **~43 t/s** |
+| TurboQuant branch | Q4_K_XL | vertical ngl 20 | **turbo4 / turbo3** | **~30 t/s** |
 
-**System RAM is part of the result.** Treat hybrid rows as “3060 + strong CPU + **64 GB RAM**,” not “3060 alone.”
+**System RAM is part of the result.** Treat hybrid rows as “3060 + strong CPU + **64 GB RAM**,” not “3060 alone.”  
+**KV is part of the result.** See [../techniques/kv-cache.md](../techniques/kv-cache.md).

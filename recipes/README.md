@@ -1,8 +1,11 @@
 # recipes/
 
-Short commands used or derived from the logs. Paths sanitized. Lab: `-t 12`, 64 GB RAM host.
+Short commands used or derived from the logs. Paths sanitized. Lab: `-t 12`, 64 GB RAM host.  
+Always set **`-ctk` / `-ctv`** for LLM — see [../techniques/kv-cache.md](../techniques/kv-cache.md).
 
 ## Qwen 35B TQ3 (llama.cpp-tq3)
+
+**KV:** `q4_0` / `tq3_0`
 
 ```bash
 ./build/bin/llama-server \
@@ -15,6 +18,8 @@ Short commands used or derived from the logs. Paths sanitized. Lab: `-t 12`, 64 
 
 ## Qwen 35B Q4 TurboQuant KV
 
+**KV:** `turbo4` / `turbo3`
+
 ```bash
 ./build/bin/llama-server \
   -m $MODEL_DIR/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf \
@@ -26,6 +31,8 @@ Short commands used or derived from the logs. Paths sanitized. Lab: `-t 12`, 64 
 
 ## Gemma 4 12B Q5 + vision
 
+**KV:** `q8_0` / `q8_0`
+
 ```bash
 ./build/bin/llama-server \
   -m $MODEL_DIR/gemma-4-12b-it-UD-Q5_K_XL.gguf \
@@ -36,6 +43,8 @@ Short commands used or derived from the logs. Paths sanitized. Lab: `-t 12`, 64 
 ```
 
 ## Generic llama-bench pattern
+
+**KV:** set explicitly (example `q8_0` / `q8_0`)
 
 ```bash
 ./build/bin/llama-bench \

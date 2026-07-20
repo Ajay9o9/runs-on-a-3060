@@ -2,6 +2,8 @@
 
 MoE 26B with ~4B active-class experts. Weights ~**21.6 GiB** — does **not** fully fit; use **CPU expert offload**. Needs healthy **system RAM** (lab: **64 GB**).
 
+**KV (all benches on this page):** `-ctk q8_0 -ctv q8_0`
+
 ## Model
 
 | File | Size | Params |
@@ -72,9 +74,9 @@ Longer PP:
 
 ## Summary
 
-| ncmoe | Peak VRAM | tg128 |
-|------:|----------:|------:|
-| 32 | 3.81 GB | 33.53 |
-| 20 | 10.1 GB | 39.48 |
+| ncmoe | KV | Peak VRAM | tg128 |
+|------:|-----|----------:|------:|
+| 32 | q8_0 / q8_0 | 3.81 GB | 33.53 |
+| 20 | q8_0 / q8_0 | 10.1 GB | 39.48 |
 
 Host RAM: 64 GB on this machine.

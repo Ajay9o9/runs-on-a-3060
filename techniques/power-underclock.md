@@ -10,6 +10,8 @@ sudo nvidia-smi -lgc 1550,1550   # lock GPU core clock
 
 ## Benchmark pair (TQ3_4S, 128k, ncmoe 20)
 
+**KV:** `-ctk q4_0 -ctv tq3_0` (same both stock and limited).
+
 ```bash
 ./build/bin/llama-bench \
   -m $MODEL_DIR/Qwen3.6-35B-A3B-TQ3_4S.gguf \

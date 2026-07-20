@@ -19,11 +19,13 @@ When present in a log entry:
 1. Runtime name (+ build/commit if recorded)
 2. Command and flags
 3. Offload: `-ngl`, `-ncmoe` / `-ot exps=CPU`, `-t`
-4. pp t/s, tg t/s
-5. Peak VRAM if measured
-6. Host RAM context: this machine has **64 GB** (experts often on host)
+4. **KV cache: `-ctk` / `-ctv` (type_k / type_v)** — required for LLM
+5. pp t/s, tg t/s
+6. Peak VRAM if measured
+7. Host RAM context: this machine has **64 GB** (experts often on host)
 
-Commands and tables: [comparison.md](comparison.md).
+Commands and tables: [comparison.md](comparison.md).  
+KV types used in this lab: [../techniques/kv-cache.md](../techniques/kv-cache.md).
 
 ## Build note
 

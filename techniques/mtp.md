@@ -8,6 +8,8 @@
 
 ## Cost / benefit (Qwen MTP Q6, short prompts)
 
+**KV for these sweeps:** `-ctk q8_0 -ctv q8_0` unless noted.
+
 | Mode | Gen t/s (approx) | VRAM |
 |------|------------------|------|
 | no MTP | ~21 | ~5.9–6.0 GB (partial GPU experts) |

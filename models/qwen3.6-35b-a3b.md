@@ -19,23 +19,28 @@ Vision projector used in some server runs: `mmproj-BF16.gguf`.
 
 ## Headline results (generation)
 
-| Setup | tg t/s | pp note | VRAM / RAM story |
-|-------|--------|---------|------------------|
-| TQ3_4S, tq3 fork, ncmoe 16–24, 128k | **~58–60** | pp128k ~500–530 | Hybrid; RAM holds experts |
-| TQ3_4S, 4k, ncmoe 32 | **~53–54** | pp4k ~600+ | Hybrid |
-| Q5, mainline, ncmoe 32 | **~48** | pp4k ~500 | Experts on CPU → **many GB RAM** |
-| Q6, ik_llama, ncmoe 32 | **~47** | pp4k ~800 | Same |
-| Q4 TurboQuant, ncmoe 48 | **~43** | pp4k ~480 | highest tg in that ngl99 sweep |
-| Q4 TurboQuant, ngl 20 vertical | **~30** | pp4k ~560 | Fewer layers on GPU |
-| MTP on, n-max ~3 | **~31–36** vs ~21 off | — | +~2–2.5 GB VRAM for drafts |
+KV is part of the result. Do not compare tg across rows with different `ctk`/`ctv`.
 
-Full fork tables: [../runtimes/comparison.md](../runtimes/comparison.md).
+| Setup | KV (`ctk`/`ctv`) | tg t/s | pp note | VRAM / RAM |
+|-------|------------------|--------|---------|------------|
+| TQ3_4S, tq3 fork, ncmoe 16–24, 128k | **q4_0 / tq3_0** | **~58–60** | pp128k ~500–530 | hybrid; RAM holds experts |
+| TQ3_4S, 4k, ncmoe 32 | **q4_0 / tq3_0** | **~53–54** | pp4k ~600+ | hybrid |
+| Q5, mainline, ncmoe 32 | **q8_0 / q8_0** | **~48** | pp4k ~500 | experts on CPU → many GB RAM |
+| Q5, ik_llama, exps=CPU | **q4_0 / q4_0** | **~46** | pp4k ~825 | experts on CPU |
+| Q6, ik_llama, ncmoe 32 | **q8_0 / q8_0** | **~47** | pp4k ~800 | experts on CPU |
+| Q4 TurboQuant, ncmoe 48 | **turbo4 / turbo3** | **~43** | pp4k ~480 | highest tg in that ngl99 sweep |
+| Q4 TurboQuant, ngl 20 vertical | **turbo4 / turbo3** | **~30** | pp4k ~560 | fewer layers on GPU |
+| MTP on, n-max ~3 (typical short-prompt sweeps) | **q8_0 / q8_0** | **~31–36** vs ~21 off | — | +~2–2.5 GB VRAM for drafts |
+
+Full fork tables: [../runtimes/comparison.md](../runtimes/comparison.md). KV catalog: [../techniques/kv-cache.md](../techniques/kv-cache.md).
 
 ---
 
 ## Command recipes
 
 ### A) Fastest gen path — TQ3 (llama.cpp-tq3)
+
+**KV:** `q4_0` / `tq3_0`
 
 ```bash
 # Build: https://github.com/turbo-tan/llama.cpp-tq3
@@ -75,6 +80,8 @@ Server-style (vision projector optional):
 ```
 
 ### B) Unsloth Q4 + TurboQuant KV — horizontal MoE (best non-TQ3 daily gen)
+
+**KV:** `turbo4` / `turbo3`
 
 ```bash
 ./build/bin/llama-bench \

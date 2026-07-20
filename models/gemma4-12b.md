@@ -2,7 +2,8 @@
 
 Dense-ish 12B-class model — **can fully land on 12GB** at Q5/Q6 with careful KV. Best “all VRAM, little RAM offload” LLM in this lab.
 
-**Host:** RTX 3060 12GB · 9900X · **64 GB RAM** (RAM mostly idle for full-GPU configs).
+**Host:** RTX 3060 12GB · 9900X · **64 GB RAM** (RAM mostly idle for full-GPU configs).  
+**KV (almost all benches below):** `-ctk q8_0 -ctv q8_0`
 
 ## Quants tried
 
@@ -19,6 +20,8 @@ Vision: `mmproj-F16.gguf`.
 ---
 
 ## llama-bench — Q5 full GPU
+
+**KV:** `q8_0` / `q8_0`
 
 ```bash
 ./build/bin/llama-bench \

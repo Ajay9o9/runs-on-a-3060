@@ -15,6 +15,7 @@
 | GPU | RTX 3060 12GB |
 | Peak VRAM | **10450 MB** (all step counts, `-ngl 15`) |
 | Offload | partial GPU layers (`-ngl 15`) — rest relies on system RAM (**64 GB** host) |
+| KV (`-ctk`/`-ctv`) | **not recorded** (diffusion CLI log had no ctk/ctv flags) |
 
 ## Command
 
