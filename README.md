@@ -4,6 +4,8 @@ Bench logs and commands for local LLM and image models on **RTX 3060 12GB**.
 
 Not a guide or opinion piece. Tables, flags, and measured numbers from one machine. Narrative posts (X, etc.) can link here; this repo stays reference-only.
 
+**X:** [@ItsmeAjayKV](https://x.com/ItsmeAjayKV)
+
 ## Test machine
 
 | | |
