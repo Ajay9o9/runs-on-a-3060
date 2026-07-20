@@ -122,6 +122,8 @@ Lab interactive note: ~**35 t/s**.
 
 ### C) Unsloth Q5 — ik_llama experts on CPU
 
+**KV:** `q4_0` / `q4_0` (ik block below); mainline horizontal uses **`q8_0` / `q8_0`**.
+
 ```bash
 ./build/bin/llama-bench \
   -m $MODEL_DIR/Qwen3.6-35B-A3B-UD-Q5_K_M.gguf \
@@ -148,6 +150,8 @@ Same weights, mainline horizontal:
 
 ### D) Unsloth Q6 — ik_llama
 
+**KV:** `q8_0` / `q8_0`
+
 ```bash
 ./build/bin/llama-bench \
   -m $MODEL_DIR/Qwen3.6-35B-A3B-UD-Q6_K.gguf \
@@ -162,6 +166,8 @@ Same weights, mainline horizontal:
 Lab note: stock llama.cpp struggled with this Q6 at the time; **ik_llama worked**.
 
 ### E) MTP speculative (llama.cpp MTP branch)
+
+**KV (short-prompt sweeps):** `q8_0` / `q8_0`
 
 Base command pattern (flags evolved across MTP PR / draft-mtp):
 

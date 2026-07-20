@@ -49,6 +49,8 @@ JSON metadata from bench included: `"gpu_info": "NVIDIA GeForce RTX 3060"`, `"cp
 
 ## llama-bench — Q6 full GPU
 
+**KV:** `q8_0` / `q8_0`
+
 ```bash
 ./build/bin/llama-bench \
   -m $MODEL_DIR/gemma-4-12b-it-UD-Q6_K_XL.gguf \
@@ -149,10 +151,10 @@ Example: `pp4096 @ d32768` ≈ **1011 t/s**, `tg256` ≈ **40.5 t/s** (single-ru
 
 ## Summary table (this machine)
 
-| Setup | tg (approx) | VRAM note |
-|-------|------------:|-----------|
-| Q5_K_XL full GPU | ~30–33 | fits |
-| Q6_K_XL full GPU | ~26 | peak ~11.3 GB |
-| Q8 ngl 40 | ~15 | peak ~11.2 GB |
-| QAT Q4 long ctx (benchy) | ~35–40 (varies) | ~9980 MB VRAM, ~7.5 GB RAM in one server log |
-| Q5 + mmproj-F16 | — | vision server config above |
+| Setup | KV | tg (approx) | VRAM note |
+|-------|-----|------------:|-----------|
+| Q5_K_XL full GPU | q8_0 / q8_0 | ~30–33 | fits |
+| Q6_K_XL full GPU | q8_0 / q8_0 | ~26 | peak ~11.3 GB |
+| Q8 ngl 40 | q8_0 / q8_0 | ~15 | peak ~11.2 GB |
+| QAT Q4 long ctx (benchy) | q8_0 / q8_0 (server log) | ~35–40 (varies) | ~9980 MB VRAM, ~7.5 GB RAM in one server log |
+| Q5 + mmproj-F16 | q8_0 / q8_0 | — | vision server config above |
