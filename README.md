@@ -1,4 +1,4 @@
-# local-llm-3060
+# runs-on-a-3060
 
 Bench logs and commands for local LLM and image models on **RTX 3060 12GB**.
 
