@@ -81,6 +81,7 @@ Server-style (vision projector optional):
 
 ### B) Unsloth Q4 + TurboQuant KV — horizontal MoE (best non-TQ3 daily gen)
 
+**Runtime:** [TheTom/llama-cpp-turboquant](https://github.com/TheTom/llama-cpp-turboquant)  
 **KV:** `turbo4` / `turbo3`
 
 ```bash
