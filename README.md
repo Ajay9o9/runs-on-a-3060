@@ -81,13 +81,25 @@ MTP is **not** the same as a plain `llama-bench` tg row. Draft depth (`n-max`), 
 | MTP `n-max` 2–3 | ~**31–36** | ~8.0–10.5 GB | best band in lab sweeps |
 | MTP `n-max` 5–6 | often **worse** than 2–3 | ~8–10.5 GB | over-draft; accept rate / speed drop |
 
-Other MTP-related logs in this repo:
+**Gemma 4 12B Unsloth QAT Q4** — long-context [llama-benchy](https://github.com/eugr/llama-benchy), **KV `q8_0` / `q8_0`**, draft MTP `n-max` 4 (2026-06-09):
+
+| Mode | depth | pp4096 (t/s) | tg256 (t/s) |
+|------|------:|-------------:|------------:|
+| QAT, no MTP | 32k | ~1000 | ~**39** |
+| **QAT + MTP n-max 4** | 32k | ~**1011** | ~**40.5** |
+| QAT, no MTP | 64k | ~810 | ~**39** |
+| **QAT + MTP n-max 4** | 64k | ~808 | ~**35** |
+
+Non-QAT Unsloth Q4 baseline at 32k: pp ~**820**, tg ~**37** (~9980 MB VRAM). Full depth tables (32k–256k): [models/gemma4-12b.md](models/gemma4-12b.md).
+
+Other MTP-related logs:
 
 | What | Where |
 |------|--------|
 | Qwen MTP n-max sweeps (ngl / ncmoe matrix) | [models/qwen3.6-35b-a3b.md](models/qwen3.6-35b-a3b.md) § E |
 | Qwen 27B MTP commands | [models/qwen3.6-27b.md](models/qwen3.6-27b.md) |
-| Gemma 4 12B Q5 + MTP draft GGUF (server + [llama-benchy](https://github.com/eugr/llama-benchy)) | [models/gemma4-12b.md](models/gemma4-12b.md) — tg often ~**33–43** with draft (varies by depth) |
+| Gemma 4 12B Q5 + MTP draft (server + llama-benchy) | [models/gemma4-12b.md](models/gemma4-12b.md) |
+| Gemma 4 12B **QAT Q4** with/without MTP | [models/gemma4-12b.md](models/gemma4-12b.md) § QAT |
 
 ### Image
 
