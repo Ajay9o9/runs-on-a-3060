@@ -1,20 +1,16 @@
-# Contributing results
+# Contributing
 
-We want **reproducible** 12GB-class numbers, not vibes.
+Submit measured runs. Keep tone factual (command + numbers). No essays required.
 
-## Minimum for a PR / issue
+## Required fields
 
-1. **Hardware**
-   - GPU model + VRAM  
-   - **System RAM size + speed if known**  
-   - CPU model + threads used (`-t`)  
-2. **Runtime**
-   - llama.cpp / ik_llama / tq3 / other + commit or build number if possible  
-3. **Exact command** (copy-paste)  
-4. **Results**
-   - pp t/s, tg t/s (or image: seconds, steps, resolution)  
-   - Peak VRAM (`nvidia-smi` or llama memory breakdown)  
-5. **Model filename** + quant + HF link if public  
+1. GPU model + VRAM  
+2. System RAM size  
+3. CPU + `-t`  
+4. Runtime name (+ commit/build if known)  
+5. Exact command  
+6. Results: pp/tg (or image time/steps/resolution), peak VRAM if available  
+7. Model filename + quant (+ HF link if public)  
 
 ## Template
 
@@ -38,13 +34,10 @@ We want **reproducible** 12GB-class numbers, not vibes.
 |------|-----|------|
 | pp4096 | | |
 | tg128 | | |
-
-### Notes
 ```
 
 ## Scope
 
-- Prefer **RTX 3060 12GB** or other **12GB** cards.  
-- Other VRAM sizes welcome if labeled clearly.  
-- Keep **LLM** vs **image** sections separate.  
-- Do not commit private tokens, local absolute home paths with usernames, or huge binaries.
+- Prefer RTX 3060 12GB or other 12GB cards; label other GPUs clearly  
+- Keep LLM vs image paths separate  
+- No secrets, private tokens, or huge binaries

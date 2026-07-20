@@ -78,8 +78,11 @@ Hermes `/img` style parameters also used: `steps`, `width`, `height`, `guidance`
 
 Studio/frontend supports backend swap; `/compare` style workflow hits both for side-by-side quality vs speed/size.
 
-## Takeaway for 3060 users
+## Summary
 
-- Image Bonsai **fits comfortably** (~6.6 GB peak in these runs).  
-- You can run **image gen and still have VRAM left** for a small LLM, or free the GPU for a large hybrid MoE LLM — not both at full blast without planning.  
-- This is **not** the same as [Ternary Bonsai 27B LLM](../models/bonsai-ternary-27b.md).
+| Metric | Value |
+|--------|-------|
+| Peak VRAM (lab gens) | ~6585 MB |
+| Example wall time | ~9.7 s |
+
+Not the same as [Ternary Bonsai 27B LLM](../models/bonsai-ternary-27b.md).

@@ -42,8 +42,11 @@
 
 Prefill on short prompt stayed ~**32–35 tok/s**.
 
-## Takeaway
+## Summary
 
-- VRAM is stable ~**10.4 GB** at ngl 15 — fits 3060 with little headroom.  
-- Quality vs speed is almost linear in diffusion steps (~**0.5 s/step** on this card).  
-- Do not confuse with [Bonsai Image](../image/bonsai-image-4b.md) or SD-style image models.
+| Metric | Value |
+|--------|-------|
+| Peak VRAM @ ngl 15 | ~10450 MB |
+| s/step (lab) | ~0.5 |
+
+Not image gen. See [Bonsai Image](../image/bonsai-image-4b.md) for image models.

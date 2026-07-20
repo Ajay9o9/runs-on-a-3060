@@ -1,8 +1,4 @@
-# Power underclock on RTX 3060 (LLM)
-
-## Why
-
-LLM decode is often **memory-bound**. Power limiting can cut heat/noise/power with modest tok/s loss.
+# Power limit measurements (RTX 3060)
 
 ## Commands used
 
@@ -28,8 +24,8 @@ sudo nvidia-smi -lgc 1550,1550   # lock GPU core clock
 | Stock | ~**142 W** | 507.64 | **59.21** |
 | 115 W + 1550 MHz | limited | 477.90 | **53.76** |
 
-≈ **9%** generation loss for a large power/thermal cut.
+Approx gen delta in this pair: ~59 → ~54 tg (~9%).
 
-## Related assets
+## Data files
 
-Raw GPU logs/plots from the lab may be added under `data/underclock/` (CSV + charts from nvidia sampling).
+- [../data/underclock/](../data/underclock/) — GPU sample CSVs and plots

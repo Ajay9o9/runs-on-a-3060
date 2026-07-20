@@ -183,10 +183,10 @@ sudo nvidia-smi -lgc 1550,1550
 |-----------|--------|-------|------|
 | 64 | 481.90 | **42.96** | all experts CPU |
 | 56 | 475.90 | 43.33 | |
-| **48** | 483.19 | **43.45** | sweet spot in this sweep |
-| 40 | 483.85 | 42.79 | slight regression (oversaturate / PCIe) |
+| **48** | 483.19 | **43.45** | highest tg in this sweep |
+| 40 | 483.85 | 42.79 | slightly lower tg than ncmoe 48 |
 
-**Takeaway:** horizontal MoE offload was **~43 t/s** vs vertical **~30 t/s** on the same Q4 weights — biggest free lunch on this 3060 + 64GB box.
+Same weights: horizontal ~43 tg vs vertical ~30 tg.
 
 ### Server recipes (TurboQuant Q4)
 

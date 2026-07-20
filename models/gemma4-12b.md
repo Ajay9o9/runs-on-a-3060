@@ -144,12 +144,12 @@ Example: `pp4096 @ d32768` ≈ **1011 t/s**, `tg256` ≈ **40.5 t/s** (single-ru
 
 ---
 
-## Takeaways for 3060 users
+## Summary table (this machine)
 
-| Goal | Pick |
-|------|------|
-| Best interactive dense LLM | **Q5_K_XL** full GPU ~**30–33 t/s** |
-| Max quality in VRAM | Q6 if context stays modest (~11.3 GB peak) |
-| Avoid | Full Q8 for speed — too heavy, gen tanks |
-| Long context | QAT Q4 or Q5 + watch KV; use benchy depths |
-| Multimodal | Q5 + `mmproj-F16` |
+| Setup | tg (approx) | VRAM note |
+|-------|------------:|-----------|
+| Q5_K_XL full GPU | ~30–33 | fits |
+| Q6_K_XL full GPU | ~26 | peak ~11.3 GB |
+| Q8 ngl 40 | ~15 | peak ~11.2 GB |
+| QAT Q4 long ctx (benchy) | ~35–40 (varies) | ~9980 MB VRAM, ~7.5 GB RAM in one server log |
+| Q5 + mmproj-F16 | — | vision server config above |

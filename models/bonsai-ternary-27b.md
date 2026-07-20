@@ -45,6 +45,11 @@ llama-benchy \
 | pp49152 | 407.08 ± 20.87 | | ~109956 |
 | tg256 | **23.37 ± 1.39** | 28.33 | |
 
-## Takeaway
+## Summary
 
-~**23–25 tok/s** gen with large prompt processing at 24k–49k context on a 3060 is solid for a 27B-class ternary GGUF. For MoE speed kings see [qwen3.6-35b-a3b.md](qwen3.6-35b-a3b.md).
+| Metric | Value |
+|--------|-------|
+| tg256 | ~23–25 t/s |
+| PP sizes tested | 24576, 36864, 49152 |
+
+Related MoE logs: [qwen3.6-35b-a3b.md](qwen3.6-35b-a3b.md).

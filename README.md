@@ -1,133 +1,94 @@
-# Local LLM 3060
+# local-llm-3060
 
-**Real local LLM (and image) results on an RTX 3060 12GB** — models, VRAM, system RAM offload, exact commands, and which `llama.cpp` forks we used.
+Bench logs and commands for local LLM and image models on **RTX 3060 12GB**.
 
-> Not marketing synthetics. Lab notes cleaned from a working desktop: **3060 + Ryzen 9 9900X + 64 GB RAM**.
+Not a guide or opinion piece. Tables, flags, and measured numbers from one machine. Narrative posts (X, etc.) can link here; this repo stays reference-only.
 
-## Hardware (read this first)
+## Test machine
 
 | | |
 |--|--|
-| **GPU** | RTX **3060 12GB** (~11887 MiB) |
-| **CPU** | Ryzen 9 **9900X** (12c/24t) |
-| **RAM** | **64 GB** DDR5 @ 6000 MT/s |
-| **OS** | Ubuntu 24.04 |
+| GPU | RTX 3060 12GB (~11887 MiB) |
+| CPU | Ryzen 9 9900X (12c / 24t), `-t 12` in most benches |
+| RAM | 64 GB DDR5 @ 6000 MT/s |
+| OS | Ubuntu 24.04 |
 
-**Why RAM is in the title of every hybrid result:** Qwen3.6 35B Q4–Q6 weights are **20–30 GiB**. They do **not** fit in VRAM. Experts are offloaded to **system RAM**. If you have 16–32 GB RAM, do not expect the same hybrid speeds.
+Details: [HARDWARE.md](HARDWARE.md).
 
-Full write-up: [HARDWARE.md](HARDWARE.md).
+Hybrid MoE configs place large expert weights in **system RAM**. Match your RAM when comparing.
 
----
+## Index
 
-## What’s possible (cheat sheet)
+| Path | Contents |
+|------|----------|
+| [models/](models/) | LLM models: commands, offload flags, pp/tg, VRAM when recorded |
+| [image/](image/) | Image gen (Bonsai Image 4B) |
+| [runtimes/](runtimes/) | llama.cpp / ik_llama / tq3 / other builds used |
+| [techniques/](techniques/) | MoE flags, MTP, power limit measurements |
+| [recipes/](recipes/) | Short command snippets |
+| [data/underclock/](data/underclock/) | GPU sample CSVs and plots |
 
-### LLM — generation speed (approx, lab best)
+## Results snapshot
 
-| Model | Quant / path | Runtime | Offload | tg t/s | VRAM note |
-|-------|--------------|---------|---------|-------:|-----------|
-| Qwen3.6 35B-A3B | **TQ3_4S** | llama.cpp-**tq3** | ngl 99, ncmoe 16–32 | **~54–60** | hybrid; RAM holds experts |
-| Qwen3.6 35B-A3B | Q5 / Q6 Unsloth | ik_llama / mainline | exps CPU / ncmoe 32 | **~46–48** | ~25–30 GiB weights in RAM |
-| Qwen3.6 35B-A3B | Q4_K_XL TurboQuant | TQ branch | **horizontal** ncmoe 48 | **~43** | vs ~30 vertical |
-| Qwen3.6 35B MTP | MTP Q6 | MTP branch | n-max 2–3 | **~31–36** | +~2–2.5 GB vs no MTP |
-| Gemma 4 12B | Q5_K_XL | llama.cpp | full GPU | **~30–33** | fits 12GB |
-| Gemma 4 12B | Q6_K_XL | llama.cpp | full GPU | **~26** | peak ~11.3 GB |
-| Gemma 4 26B-A4B | Q6 | llama.cpp | ncmoe 20–32 | **~33–39** | 3.8–10.1 GB VRAM knob |
-| Ternary Bonsai **27B LLM** | Q2_0 | llama-server | ngl 999 | **~23–25** | long PP 24k–49k |
-| Diffusion Gemma 26B | Q4 (text diffusion) | diffusion-cli | ngl 15 | ~0.5 s/step | peak **10450 MB** |
+Values are from this lab only. Full commands live on the model/runtime pages.
+
+### LLM (tg ≈ tokens/s generation)
+
+| Model | Quant / setup | Runtime | Offload | tg | Notes |
+|-------|---------------|---------|---------|---:|-------|
+| Qwen3.6 35B-A3B | TQ3_4S | llama.cpp-tq3 | ngl 99, ncmoe 16–32 | ~54–60 | hybrid |
+| Qwen3.6 35B-A3B | Q5 / Q6 Unsloth | ik_llama / mainline | exps CPU / ncmoe 32 | ~46–48 | large host RAM |
+| Qwen3.6 35B-A3B | Q4_K_XL, turbo KV | TurboQuant branch | ngl 99, ncmoe 48 | ~43 | vs ~30 @ ngl 20 |
+| Qwen3.6 35B MTP | MTP Q6 | MTP branch | n-max 2–3 | ~31–36 | higher VRAM than no-MTP |
+| Gemma 4 12B | Q5_K_XL | llama.cpp | full GPU | ~30–33 | |
+| Gemma 4 12B | Q6_K_XL | llama.cpp | full GPU | ~26 | peak VRAM ~11.3 GB |
+| Gemma 4 26B-A4B | Q6 | llama.cpp | ncmoe 20–32 | ~33–39 | VRAM ~3.8–10.1 GB |
+| Ternary Bonsai 27B | Q2_0 | llama-server | ngl 999 | ~23–25 | LLM, not image |
+| Diffusion Gemma 26B | Q4 | diffusion-cli | ngl 15 | ~0.5 s/step | text diffusion; peak ~10450 MB |
 
 ### Image
 
-| Model | Stack | Time (lab) | Peak VRAM |
-|-------|-------|------------|-----------|
-| **Bonsai Image 4B** ternary | PrismML studio / gemlite | **~9.7 s** / ~2.4 s/step | **~6585 MB** |
+| Model | Stack | Time | Peak VRAM |
+|-------|-------|-----:|----------:|
+| Bonsai Image 4B ternary | PrismML / gemlite | ~9.7 s (~2.4 s/step) | ~6585 MB |
 
----
+## Runtimes used
 
-## Repo map
+| Runtime | Link | Used for |
+|---------|------|----------|
+| llama.cpp | [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp) | Gemma, general GGUF, server |
+| ik_llama.cpp | [ikawrakow/ik_llama.cpp](https://github.com/ikawrakow/ik_llama.cpp) | Qwen Q5/Q6 hybrid |
+| llama.cpp-tq3 | [turbo-tan/llama.cpp-tq3](https://github.com/turbo-tan/llama.cpp-tq3) | TQ3_4S |
+| TurboQuant branch | community fork | turbo4 / turbo3 KV |
+| MTP / draft-mtp | branch builds | speculative decoding |
+| llama-diffusion-gemma | diffusion CLI | Diffusion Gemma |
+| llama-benchy | HTTP client | server-side long-context benches |
 
-```text
-local-llm-3060/
-├── README.md                 ← you are here
-├── HARDWARE.md               ← GPU + CPU + RAM + offload implications
-├── models/                   ← LLM section (commands + results)
-│   ├── qwen3.6-35b-a3b.md    ← deepest page
-│   ├── gemma4-12b.md
-│   ├── gemma4-26b-a4b.md
-│   ├── diffusion-gemma.md    ← text diffusion, not image
-│   └── bonsai-ternary-27b.md ← LLM, not image
-├── image/                    ← image section
-│   └── bonsai-image-4b.md
-├── runtimes/                 ← which llama.cpp forks + side-by-side
-│   ├── README.md
-│   └── comparison.md
-├── techniques/
-│   ├── moe-offload.md        ← vertical vs horizontal
-│   ├── mtp.md
-│   └── power-underclock.md
-└── recipes/                  ← short copy-paste starters
-```
+Side-by-side commands: [runtimes/comparison.md](runtimes/comparison.md).
 
-### Start here by goal
-
-| I want… | Go to |
-|---------|--------|
-| Reproduce a command | [models/](models/) or [runtimes/comparison.md](runtimes/comparison.md) |
-| Understand offload / RAM | [techniques/moe-offload.md](techniques/moe-offload.md) + [HARDWARE.md](HARDWARE.md) |
-| Pick a fork | [runtimes/README.md](runtimes/README.md) |
-| Image gen | [image/bonsai-image-4b.md](image/bonsai-image-4b.md) |
-| Power limit tip | [techniques/power-underclock.md](techniques/power-underclock.md) |
-
----
-
-## Runtimes tried
-
-| Runtime | Why |
-|---------|-----|
-| **llama.cpp** (mainline) | Gemma, general GGUF, server |
-| **ik_llama.cpp** | Strong Qwen Q5/Q6 hybrid |
-| **llama.cpp-tq3** | TQ3_4S — fastest Qwen gen here |
-| **TurboQuant branch** | turbo4/turbo3 KV on Q4 |
-| **MTP / draft-mtp branches** | Speculative decoding |
-| **llama-diffusion-gemma** | Diffusion text model |
-| **llama-benchy** | Server-side long-context benches |
-
-Details + full commands: [runtimes/comparison.md](runtimes/comparison.md).
-
----
-
-## Command conventions
+## Command convention
 
 ```bash
 export MODEL_DIR=/path/to/ggufs
-# run from the build dir of the runtime you chose
+# from the runtime build directory
 ./build/bin/llama-bench ...
 ./build/bin/llama-server ...
 ```
 
-Every serious result page tries to list:
+Logged fields when available: runtime, flags (`-ngl`, `-ncmoe`, `-t`, `-ctk`/`-ctv`), pp t/s, tg t/s, peak VRAM, host RAM context.
 
-1. Runtime  
-2. Full flags (`-ngl`, `-ncmoe`, `-t`, KV types)  
-3. pp t/s + tg t/s  
-4. VRAM when known  
-5. Reminder that hybrid MoE used **64 GB** host RAM  
+## Name disambiguation
 
----
-
-## Name collisions (please don’t mix these)
-
-| Name | What it is |
-|------|------------|
-| **Ternary Bonsai 27B** | Text **LLM** (GGUF) |
-| **Bonsai Image 4B ternary** | **Image** gen (PrismML) |
-| **Diffusion Gemma** | **Text** diffusion LLM |
-
----
+| Name | Kind |
+|------|------|
+| Ternary Bonsai 27B | text LLM (GGUF) |
+| Bonsai Image 4B ternary | image gen (PrismML) |
+| Diffusion Gemma | text diffusion LLM |
 
 ## Contributing
 
-Have a 3060 (or 12GB class) result? See [CONTRIBUTING.md](CONTRIBUTING.md). Always include **GPU + CPU + system RAM** and the **exact command**.
+[CONTRIBUTING.md](CONTRIBUTING.md) — include GPU, CPU, **system RAM**, runtime, exact command, and numbers.
 
 ## License
 
-Documentation: [CC-BY-4.0](LICENSE). Commands and numbers free to reuse with attribution.
+[CC-BY-4.0](LICENSE)

@@ -70,11 +70,11 @@ Longer PP:
 | pp65536 | 607.41 ± 3.13 |
 | tg128 | ~38 |
 
-## Takeaway
+## Summary
 
-On a 3060, Gemma 26B-A4B is a **RAM + VRAM budget knob**:
+| ncmoe | Peak VRAM | tg128 |
+|------:|----------:|------:|
+| 32 | 3.81 GB | 33.53 |
+| 20 | 10.1 GB | 39.48 |
 
-- Low VRAM headroom → raise `-ncmoe` (more CPU experts)  
-- Want speed → lower `-ncmoe` until VRAM peaks ~10GB  
-
-Your **64 GB** box makes ncmoe 32 painless; a 32 GB machine should start more conservative on context and concurrent apps.
+Host RAM: 64 GB on this machine.

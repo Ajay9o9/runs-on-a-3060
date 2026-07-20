@@ -1,9 +1,11 @@
-# Techniques
+# techniques/
 
-| Doc | Topic |
-|-----|--------|
-| [moe-offload.md](moe-offload.md) | Vertical `-ngl` vs horizontal `-ncmoe` / experts on CPU — **and why 64 GB RAM matters** |
-| [mtp.md](mtp.md) | Speculative MTP: speed vs VRAM |
-| [power-underclock.md](power-underclock.md) | 115 W power limit results |
+Measurements and flag notes. Not tutorials.
 
-Raw underclock CSV/plots: [../data/underclock/](../data/underclock/).
+| File | Topic |
+|------|--------|
+| [moe-offload.md](moe-offload.md) | `-ngl` vs `-ncmoe` / experts on CPU; RAM sizes on this host |
+| [mtp.md](mtp.md) | MTP / draft-mtp commands and VRAM deltas |
+| [power-underclock.md](power-underclock.md) | 115 W power limit benches |
+
+CSV / plots: [../data/underclock/](../data/underclock/).

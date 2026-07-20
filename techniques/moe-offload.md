@@ -1,14 +1,14 @@
-# MoE offload on 12GB: vertical vs horizontal
+# MoE offload: `-ngl` vs `-ncmoe`
 
-The single most important LLM lesson from this 3060 lab.
+Flag notes and measured deltas on the lab machine.
 
-## Hardware assumption
+## Hardware (this log set)
 
-- **GPU:** RTX 3060 **12GB**  
-- **RAM:** **64 GB** (experts live here when offloaded)  
-- **CPU:** Ryzen 9 9900X, usually `-t 12`
+- GPU: RTX 3060 12GB  
+- RAM: 64 GB (expert tensors often on host)  
+- CPU: Ryzen 9 9900X, usually `-t 12`
 
-If you only have 16–32 GB RAM, copy the flags but expect OOM or thrashing on Q5/Q6 35B-class weights.
+Other RAM sizes will not match hybrid Q5/Q6 35B host footprints here.
 
 ## Vertical split (`-ngl`)
 
@@ -49,24 +49,24 @@ Keep **attention (and non-expert)** on GPU with high `-ngl`, push **expert** ten
 | **48** | **43.5** |
 | 40 | 42.8 |
 
-≈ **+40% gen** vs best vertical in that series.
+Delta in this series: horizontal ~43 tg vs vertical ~30 tg on the same weights.
 
-## Why RAM shows up in every hybrid recipe
+## Weight size vs host (when experts on CPU)
 
-Weight files:
+| Quant | ~GiB on disk | Host role |
+|-------|--------------|-----------|
+| Q4_K_XL | ~21 | experts largely in system RAM |
+| Q5_K_M | ~25 | same |
+| Q6_K | ~27–30 | same |
+| TQ3_4S | ~12.4 | still often hybrid for speed / context |
 
-| Quant | ~GiB on disk | Where it goes when experts are CPU |
-|-------|--------------|--------------------------------------|
-| Q4_K_XL | ~21 | Mostly **system RAM** + some VRAM for attention/KV |
-| Q5_K_M | ~25 | Same |
-| Q6_K | ~27–30 | Same |
-| TQ3_4S | ~12.4 | Still hybrid for best speed / context |
+## Flag sweep used in lab
 
-**Users with 12GB VRAM but 16GB RAM cannot reproduce these hybrid speeds.** Document your RAM when you publish results.
+```text
+-ngl 99 -ncmoe 64   # then lower ncmoe while watching nvidia-smi
+-ngl 99 -ncmoe 48
+-ngl 99 -ncmoe 32
+...
+```
 
-## Practical recipe
-
-1. Start `-ngl 99 -ncmoe 64` (max experts on CPU) — safe VRAM.  
-2. Lower ncmoe (48 → 32 → 24 → 16) until VRAM is ~10–11 GB under your target context.  
-3. Stop when tg drops (oversaturate) or OOM.  
-4. Always log: `free -h`, `nvidia-smi`, and the full command.
+Log with each point: full command, `nvidia-smi`, `free -h` if possible.

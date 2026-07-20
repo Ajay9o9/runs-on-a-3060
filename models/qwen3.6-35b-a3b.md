@@ -25,7 +25,7 @@ Vision projector used in some server runs: `mmproj-BF16.gguf`.
 | TQ3_4S, 4k, ncmoe 32 | **~53–54** | pp4k ~600+ | Hybrid |
 | Q5, mainline, ncmoe 32 | **~48** | pp4k ~500 | Experts on CPU → **many GB RAM** |
 | Q6, ik_llama, ncmoe 32 | **~47** | pp4k ~800 | Same |
-| Q4 TurboQuant, ncmoe 48 | **~43** | pp4k ~480 | Horizontal sweet spot |
+| Q4 TurboQuant, ncmoe 48 | **~43** | pp4k ~480 | highest tg in that ngl99 sweep |
 | Q4 TurboQuant, ngl 20 vertical | **~30** | pp4k ~560 | Fewer layers on GPU |
 | MTP on, n-max ~3 | **~31–36** vs ~21 off | — | +~2–2.5 GB VRAM for drafts |
 

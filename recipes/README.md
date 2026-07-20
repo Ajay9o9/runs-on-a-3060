@@ -1,11 +1,10 @@
-# Quick recipes (copy-paste)
+# recipes/
 
-Sanitize paths. Default threads `-t 12` matched the lab **9900X**; adjust. Hybrid MoE assumes **plenty of system RAM** (lab: **64 GB**).
+Short commands used or derived from the logs. Paths sanitized. Lab: `-t 12`, 64 GB RAM host.
 
-## 1) Qwen 35B — max gen (TQ3)
+## Qwen 35B TQ3 (llama.cpp-tq3)
 
 ```bash
-# runtime: llama.cpp-tq3
 ./build/bin/llama-server \
   -m $MODEL_DIR/Qwen3.6-35B-A3B-TQ3_4S.gguf \
   -c 8192 -b 512 -ub 512 -t 12 \
@@ -14,7 +13,7 @@ Sanitize paths. Default threads `-t 12` matched the lab **9900X**; adjust. Hybri
   --host 0.0.0.0 --port 8080
 ```
 
-## 2) Qwen 35B — Unsloth Q4 hybrid (TurboQuant KV)
+## Qwen 35B Q4 TurboQuant KV
 
 ```bash
 ./build/bin/llama-server \
@@ -25,7 +24,7 @@ Sanitize paths. Default threads `-t 12` matched the lab **9900X**; adjust. Hybri
   --host 0.0.0.0 --port 8080
 ```
 
-## 3) Gemma 4 12B — full GPU daily driver
+## Gemma 4 12B Q5 + vision
 
 ```bash
 ./build/bin/llama-server \
@@ -36,7 +35,7 @@ Sanitize paths. Default threads `-t 12` matched the lab **9900X**; adjust. Hybri
   --jinja --host 0.0.0.0 --port 8080
 ```
 
-## 4) Bench any GGUF the way we did
+## Generic llama-bench pattern
 
 ```bash
 ./build/bin/llama-bench \
@@ -47,11 +46,11 @@ Sanitize paths. Default threads `-t 12` matched the lab **9900X**; adjust. Hybri
   -fa 1 -ctk q8_0 -ctv q8_0
 ```
 
-## 5) Quiet GPU (115 W)
+## Power limit (as measured)
 
 ```bash
 sudo nvidia-smi -pl 115
 sudo nvidia-smi -lgc 1550,1550
 ```
 
-Deep dives: [../models/](../models/) · [../runtimes/comparison.md](../runtimes/comparison.md).
+Full logs: [../models/](../models/) · [../runtimes/comparison.md](../runtimes/comparison.md).
