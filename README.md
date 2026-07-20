@@ -28,6 +28,7 @@ Details: [HARDWARE.md](HARDWARE.md) · [techniques/kv-cache.md](techniques/kv-ca
 | [runtimes/](runtimes/) | llama.cpp / ik / tq3 / turboquant / benchy |
 | [techniques/](techniques/) | KV, MoE offload, MTP, power limit |
 | [recipes/](recipes/) | Short copy-paste commands |
+| [recipes/threejs-game-qwen-mtp.md](recipes/threejs-game-qwen-mtp.md) | Three.js game dev: Qwen MTP Q6 server + ik_llama |
 | [data/underclock/](data/underclock/) | GPU CSVs / plots |
 
 ## Highlights (one line each)
@@ -38,6 +39,7 @@ Details: [HARDWARE.md](HARDWARE.md) · [techniques/kv-cache.md](techniques/kv-ca
 | Qwen 35B **TQ3** (128k) | ~515 | ~**59** | same |
 | Qwen 35B Q6 hybrid (ik) | ~805 | ~**47** | same |
 | Qwen 35B **MTP** n-max 2–3 vs off | — | ~**33** vs ~21 | [RESULTS](RESULTS.md#mtp-qwen-35b-mtp-q6) |
+| Qwen 35B MTP Q6 **ik vs llama** prefill | ~**821** vs ~473 | ~46 | [three.js use case](recipes/threejs-game-qwen-mtp.md) |
 | Gemma 4 12B **Q5** | ~1100 | ~**32** | [RESULTS](RESULTS.md#gemma-4-12b) |
 | Gemma 4 12B **QAT** @ 32k + MTP | ~1011 | ~**40.5** | [RESULTS](RESULTS.md#gemma-qat-mtp-32k--64k) |
 | Gemma 4 26B-A4B (ncmoe 20) | ~690 | ~**39** | [RESULTS](RESULTS.md#gemma-4-26b-a4b) |

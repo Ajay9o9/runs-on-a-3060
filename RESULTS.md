@@ -39,6 +39,19 @@ Short prompts, KV `q8_0` / `q8_0`, hybrid MoE (e.g. ngl 5–6, ncmoe 24–32). S
 | MTP n-max 2–3 | ~31–36 | ~8.0–10.5 GB |
 | MTP n-max 5–6 | often worse than 2–3 | ~8–10.5 GB |
 
+### Three.js game server + ik_llama vs llama.cpp
+
+Use case page: [recipes/threejs-game-qwen-mtp.md](recipes/threejs-game-qwen-mtp.md)
+
+**Server (Three.js coding sessions):** `Qwen3.6-35B-A3B-MTP-UD-Q6_K_XL`, `-c 132768`, `-ngl 99 --n-cpu-moe 36`, KV `q8_0/q8_0`, MTP `n_max=4`.
+
+**Same GGUF bench (ncmoe 32, KV q8_0/q8_0):**
+
+| Runtime | pp512 | tg256 | pp65536 |
+|---------|------:|------:|--------:|
+| ik_llama | **~821** | **~46.4** | **~713** |
+| llama.cpp e-mtp | ~473 | ~45.3 | ~413 |
+
 ---
 
 ## Gemma 4 12B

@@ -206,7 +206,12 @@ Host: ~30+ GiB self (model largely in system RAM)
 | tg | 22.3 | **35.8** | 34.9 | 32.6 |
 | VRAM MB | 8033 | 10511 | 10510 | 10594 |
 
-Long server example (game / agent work):
+### F) Three.js game server + ik_llama
+
+**Use case:** local Three.js game development against this model.  
+**Full page:** [../recipes/threejs-game-qwen-mtp.md](../recipes/threejs-game-qwen-mtp.md)
+
+Logged llama.cpp-style command:
 
 ```bash
 ./build/bin/llama-server \
@@ -217,8 +222,12 @@ Long server example (game / agent work):
   -ctk q8_0 -ctv q8_0 \
   --jinja --chat-template-kwargs '{"preserve_thinking":true}' \
   --temp 0.6 --top-p 0.95 --top-k 20 --min-p 0.0 \
-  --spec-stage mtp:n_max=4 --metrics
+  --presence-penalty 0.0 --repeat-penalty 1.0 \
+  --spec-stage mtp:n_max=4 \
+  --metrics
 ```
+
+Same GGUF on **ik_llama.cpp** (bench, ncmoe 32, KV q8_0/q8_0): **pp512 ~821** vs **~473** on llama.cpp e-mtp; tg256 ~**46.4** vs ~**45.3**. Lab also ran the long-context coding server on ik_llama for better interactive prefill. Tables on the use-case page.
 
 ---
 

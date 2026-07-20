@@ -3,6 +3,12 @@
 Short commands used or derived from the logs. Paths sanitized. Lab: `-t 12`, 64 GB RAM host.  
 Always set **`-ctk` / `-ctv`** for LLM — see [../techniques/kv-cache.md](../techniques/kv-cache.md).
 
+## Use cases
+
+| | |
+|--|--|
+| [threejs-game-qwen-mtp.md](threejs-game-qwen-mtp.md) | Three.js game dev: Qwen 35B MTP Q6 server command + ik_llama better prefill |
+
 ## Qwen 35B TQ3 (llama.cpp-tq3)
 
 **KV:** `q4_0` / `tq3_0`
@@ -62,5 +68,24 @@ Always set **`-ctk` / `-ctv`** for LLM — see [../techniques/kv-cache.md](../te
 sudo nvidia-smi -pl 115
 sudo nvidia-smi -lgc 1550,1550
 ```
+
+## Three.js game server (Qwen MTP Q6)
+
+Full write-up: [threejs-game-qwen-mtp.md](threejs-game-qwen-mtp.md)
+
+```bash
+./build/bin/llama-server \
+  -m $MODEL_DIR/Qwen3.6-35B-A3B-MTP-UD-Q6_K_XL.gguf \
+  -c 132768 \
+  -ngl 99 --n-cpu-moe 36 \
+  -fa 1 -t 12 --no-mmap \
+  -ctk q8_0 -ctv q8_0 \
+  --jinja --chat-template-kwargs '{"preserve_thinking":true}' \
+  --temp 0.6 --top-p 0.95 --top-k 20 --min-p 0.0 \
+  --presence-penalty 0.0 --repeat-penalty 1.0 \
+  --spec-stage mtp:n_max=4 --metrics
+```
+
+Same model on **ik_llama**: higher prefill in lab benches (pp512 ~821 vs ~473 on llama.cpp e-mtp). Details on the use-case page.
 
 Full logs: [../models/](../models/) · [../runtimes/comparison.md](../runtimes/comparison.md).
