@@ -74,3 +74,14 @@ Delta in this series: horizontal ~43 tg vs vertical ~30 tg on the same weights.
 ```
 
 Log with each point: full command, `nvidia-smi`, `free -h` if possible.
+
+## Laguna S-2.1 lab example (larger MoE)
+
+**118B / ~8B active**, IQ3_S ~46 GB or Q4_K_M ~73 GB — see [../models/laguna-s-2.1.md](../models/laguna-s-2.1.md).
+
+```bash
+-ngl 999 --n-cpu-moe 44   # IQ3_S daily hybrid on 3060
+-ngl 999 --n-cpu-moe 46   # Q4_K_M (more host experts → room for longer q4_0 KV)
+```
+
+On Q4_K_M, **ncmoe 46 → 44** with **q8_0** KV dropped auto context **~80k → 4k** for only a small tg bump — horizontal offload is mainly a **VRAM/context** knob at this size, not free speed.

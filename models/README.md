@@ -14,6 +14,7 @@ Every LLM page should list **KV cache** (`-ctk` / `-ctv`). Catalog: [../techniqu
 | Gemma 4 26B-A4B (MoE) | [gemma4-26b-a4b.md](gemma4-26b-a4b.md) | hybrid | `-ncmoe` | **q8_0 / q8_0** |
 | Diffusion Gemma 26B-A4B | [diffusion-gemma.md](diffusion-gemma.md) | hybrid | llama.cpp branch `nvidia-diffusion-gemma`, `-ngl 15` | **not recorded** |
 | Ternary Bonsai 27B | [bonsai-ternary-27b.md](bonsai-ternary-27b.md) | full GPU in log | llama-server + benchy | **not recorded** |
+| Laguna S-2.1 (118B-A8B MoE) | [laguna-s-2.1.md](laguna-s-2.1.md) | no — hybrid (~46–73 GB) | ngl 999 + ncmoe 44–46 | f16 / q8_0 / q4_0 (see page) |
 
 ## Flag reference
 

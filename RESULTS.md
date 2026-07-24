@@ -89,6 +89,29 @@ Page: [models/gemma4-26b-a4b.md](models/gemma4-26b-a4b.md)
 
 ---
 
+## Laguna S-2.1 (UD-IQ3_S / UD-Q4_K_M)
+
+118B MoE (~8B active). Hybrid only on 12GB. Page: [models/laguna-s-2.1.md](models/laguna-s-2.1.md).
+
+### IQ3_S (~46 GB) — llama-benchy
+
+| Setup | Runtime | Offload | KV | pp | tg | VRAM |
+|-------|---------|---------|-----|----|----|------|
+| f16, ~32k | llama.cpp + benchy | ngl 999, ncmoe 44 | f16 / f16 | pp28672 ~202 | tg256 ~23 | ~10.1 GB |
+| q8 matrix 2k–28k | same | same | q8_0 / q8_0 | ~187–205 | tg256 ~21–24 | ~9.1 GB class |
+| q8 @ 32k | same | same | q8_0 / q8_0 | pp32768 ~197 | tg256 ~19.4 | — |
+| q8 @ 64k | same | same | q8_0 / q8_0 | pp65536 ~183 | tg256 ~14.3 | ~10.3 GB |
+
+### Q4_K_M (~73 GB, 3 shards) — server logs
+
+| Setup | Offload | KV | Auto ctx | pp | tg | Notes |
+|-------|---------|-----|----------|----|----|-------|
+| long hybrid | ngl 999, **ncmoe 46** | **q4_0 / q4_0** | **~164k** | ~51–57 | ~11–12 long | VRAM ~10.7 GB |
+| q8 hungrier | ncmoe **46** | **q8_0 / q8_0** | ~80k claimed | — | — | **OOM under load** |
+| more GPU experts | ncmoe **44** | **q8_0 / q8_0** | **4k** | ~24–27 | ~13–14 | not worth it |
+
+---
+
 ## Other LLM
 
 | Model | Setup | pp | tg / other | Notes |

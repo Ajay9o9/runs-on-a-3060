@@ -43,6 +43,8 @@ Details: [HARDWARE.md](HARDWARE.md) · [techniques/kv-cache.md](techniques/kv-ca
 | Gemma 4 12B **Q5** | ~1100 | ~**32** | [RESULTS](RESULTS.md#gemma-4-12b) |
 | Gemma 4 12B **QAT** @ 32k + MTP | ~1011 | ~**40.5** | [RESULTS](RESULTS.md#gemma-qat-mtp-32k--64k) |
 | Gemma 4 26B-A4B (ncmoe 20) | ~690 | ~**39** | [RESULTS](RESULTS.md#gemma-4-26b-a4b) |
+| Laguna S-2.1 **IQ3_S** hybrid (f16 ~32k) | ~202 | ~**23** | [RESULTS](RESULTS.md#laguna-s-21-ud-iq3_s--ud-q4_k_m) · [models](models/laguna-s-2.1.md) |
+| Laguna S-2.1 **Q4_K_M** (q4_0, ncmoe 46, ~164k) | ~54 | ~**12** | same |
 | Bonsai Image 4B | — | ~10 s / ~6.6 GB | [RESULTS](RESULTS.md#image) |
 
 Full rows, KV, offload, and depths → **[RESULTS.md](RESULTS.md)**.
