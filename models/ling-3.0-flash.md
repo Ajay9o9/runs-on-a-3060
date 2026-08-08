@@ -3,14 +3,16 @@
 **Ling-3.0-flash** MoE (atomic-chat GGUF) hybrid on **RTX 3060 12GB**.  
 Lab date: **2026-08-06**.
 
-**Runtime:** llama.cpp build under `krea2-model/ling-3.0-flash` (turboquant-oriented stack per atomic-chat Ling readme).  
+**Runtime:** **[atomic-llama-cpp-turboquant](https://github.com/AtomicBot-ai/atomic-llama-cpp-turboquant)** (TurboQuant-enabled llama.cpp fork, release **b10269-1.5.0+**), installed under `krea2-model/ling-3.0-flash`. **Stock llama.cpp cannot load these GGUFs.** Runtime notes: [../runtimes/README.md](../runtimes/README.md#atomic-llama-cpp-turboquant-atomicchat-ling).  
 **Bench tool:** [llama-benchy](https://github.com/eugr/llama-benchy) `0.3.8.dev2+gff162bcfc`.  
-**Always log KV** when possible — this session did **not** pass `-ctk`/`-ctv` (default unknown; do not assume q8_0). Catalog: [../techniques/kv-cache.md](../techniques/kv-cache.md).
+**KV:** f16 (this session). Catalog: [../techniques/kv-cache.md](../techniques/kv-cache.md).
 
 ## Model
 
 | Item | Value |
 |------|--------|
+| Card | [AtomicChat/Ling-3.0-flash-GGUF](https://huggingface.co/AtomicChat/Ling-3.0-flash-GGUF) (of `inclusionAI/Ling-3.0-flash`) |
+| Arch | **124B total / 5.1B active**, hybrid linear attention, **512-expert** MoE |
 | Quant | **Q4_K_M** (atomic-chat “STOCK” multi-shard) |
 | Files | `Ling-3.0-flash-Q4_K_M_STOCK-00001-of-00002.gguf` (+ shard 2 same dir) |
 | Lab path | `/media/aj-homeserver/windows/krea2-model/ling-3.0-flash/Q4_K_M_STOCK/` |
@@ -18,6 +20,22 @@ Lab date: **2026-08-06**.
 | Hardware | RTX 3060 12GB · Ryzen 9 9900X · 64 GB RAM |
 
 Serve **shard 1**; remaining shards load from the same directory.
+
+> **STOCK is a control file.** Upstream ships `AD-*` as the production rungs; `*_STOCK` / `*_FLAT` exist to show
+> what the AD quant strategy buys and are not meant for real use. The card's 64 GB rung is **`AD-IQ3_M`**
+> (62.2 GB, KLD 0.0481) — worth a rerun on this box for a fair quality/speed read.
+
+## Runtime install
+
+Prebuilt, no compile (see [../runtimes/README.md](../runtimes/README.md#atomic-llama-cpp-turboquant-atomicchat-ling)):
+
+```bash
+wget https://github.com/AtomicBot-ai/atomic-llama-cpp-turboquant/releases/download/b10269-1.5.0/llama-turboquant-linux-x64-cuda-13.3.tar.gz
+tar xzf llama-turboquant-linux-x64-cuda-13.3.tar.gz && cd llama-turboquant-*
+```
+
+Chat template ships **inside** the GGUF (thinking mode + tool calling) — hence `--jinja`.
+Author sampling: **temp 0.6 · top_p 0.95 · top_k 20**.
 
 ## Server commands
 
@@ -48,7 +66,8 @@ cd /media/aj-homeserver/windows/krea2-model/ling-3.0-flash
 | `-ncmoe 39` | more GPU experts; less host offload |
 | `-fa on` | flash attention |
 | `-t 12` | CPU threads (this machine) |
-| **KV** | **not recorded** in lab log |
+| `--jinja` | chat template embedded in the GGUF (thinking + tools) |
+| **KV** | **f16** (no `-ctk`/`-ctv` override) |
 
 Weights live on the Windows SSD (`krea2-model`); prefer that over HDD for hybrid MoE mmap.
 
@@ -67,7 +86,7 @@ llama-benchy \
   --format md
 ```
 
-**Config stamp:** ncmoe **42** · fa on · ngl 999 · depth 0 · runs **1** · no-warmup · endpoint `127.0.0.1:8080`.
+**Config stamp:** ncmoe **42** · fa on · ngl 999 · **KV f16** · depth 0 · runs **1** · no-warmup · endpoint `127.0.0.1:8080`.
 
 ## Results
 
@@ -95,9 +114,11 @@ llama-benchy \
 
 ## Lab takeaways
 
+- Needs the **atomic turboquant fork** — this is not a stock-llama.cpp model; budget the download before the run.
 - Fits **3060 hybrid** with **ncmoe 42** (and 39 poke).
 - Decode usable in the **~15–21 t/s** range after warm-up; not in the same class as Qwen TQ3 (~54 tg) or IQ3 Laguna (~23 tg).
-- Log **`-ctk`/`-ctv`** next time; record peak VRAM + `free -h` under load.
+- KV was **f16** here — try `-ctk q8_0 -ctv q8_0` next to buy context headroom; record peak VRAM + `free -h` under load.
+- Next comparison: **`AD-IQ3_M`** (the card's 64 GB rung) vs this STOCK Q4_K_M.
 - For chatty long runs, keep GGUF on **SSD** (Windows `krea2-model`), not GAMES1 HDD.
 
 Snapshot: [../RESULTS.md](../RESULTS.md#ling-30-flash-q4_k_m). Related MoE offload: [../techniques/moe-offload.md](../techniques/moe-offload.md).

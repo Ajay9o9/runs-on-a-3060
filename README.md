@@ -74,7 +74,8 @@ Full rows, KV, offload, and depths → **[RESULTS.md](RESULTS.md)**.
 | llama.cpp | [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp) |
 | ik_llama.cpp | [ikawrakow/ik_llama.cpp](https://github.com/ikawrakow/ik_llama.cpp) |
 | TQ3 | [turbo-tan/llama.cpp-tq3](https://github.com/turbo-tan/llama.cpp-tq3) |
-| TurboQuant | [TheTom/llama-cpp-turboquant](https://github.com/TheTom/llama-cpp-turboquant) |
+| TurboQuant (KV) | [TheTom/llama-cpp-turboquant](https://github.com/TheTom/llama-cpp-turboquant) |
+| TurboQuant (AtomicChat Ling) | [AtomicBot-ai/atomic-llama-cpp-turboquant](https://github.com/AtomicBot-ai/atomic-llama-cpp-turboquant) |
 | Diffusion Gemma | llama.cpp branch `nvidia-diffusion-gemma` ([lnigam/llama.cpp](https://github.com/lnigam/llama.cpp)) |
 | llama-benchy | [eugr/llama-benchy](https://github.com/eugr/llama-benchy) |
 | Bonsai Image | [PrismML-Eng/Bonsai-image-demo](https://github.com/PrismML-Eng/Bonsai-image-demo) |

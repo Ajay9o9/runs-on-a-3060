@@ -116,15 +116,16 @@ Q4 detail (shard sizes, load log, decode progression, tweet block): [models/lagu
 
 ## Ling-3.0-flash Q4_K_M
 
-Atomic-chat STOCK multi-shard GGUF · hybrid on 3060 · llama-benchy (runs 1).  
+Atomic-chat STOCK multi-shard GGUF (124B total / 5.1B active) · hybrid on 3060 · llama-benchy (runs 1).  
 Page: [models/ling-3.0-flash.md](models/ling-3.0-flash.md).
 
 | Setup | Runtime | Offload | KV | pp | tg |
 |-------|---------|---------|-----|----|----|
-| Q4_K_M STOCK | ling llama-server (turboquant-oriented) | ngl 999, **ncmoe 42** | **not recorded** | pp8192 **~87** · pp16384 **~119** · pp32768 **~135** | tg256 **~16–21** (peaks ~25–27) |
+| Q4_K_M STOCK | [atomic-llama-cpp-turboquant](https://github.com/AtomicBot-ai/atomic-llama-cpp-turboquant) b10269-1.5.0+ | ngl 999, **ncmoe 42** | **f16** | pp8192 **~87** · pp16384 **~119** · pp32768 **~135** | tg256 **~16–21** (peaks ~25–27) |
 | same, cold first cell | same | same | same | pp4096 **~30** (warm-up / mmap) | tg256 **~14** |
 
-Also poked **ncmoe 39** (no full matrix). Prefer SSD path (`krea2-model/ling-3.0-flash`).
+Also poked **ncmoe 39** (no full matrix). Prefer SSD path (`krea2-model/ling-3.0-flash`).  
+Stock llama.cpp **cannot** load these files. `*_STOCK` is upstream's control quant — the production rungs are `AD-*`.
 
 ---
 
