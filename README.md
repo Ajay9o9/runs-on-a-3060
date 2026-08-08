@@ -31,6 +31,20 @@ Details: [HARDWARE.md](HARDWARE.md) · [techniques/kv-cache.md](techniques/kv-ca
 | [recipes/threejs-game-qwen-mtp.md](recipes/threejs-game-qwen-mtp.md) | Three.js game dev: Qwen MTP Q6 server + ik_llama |
 | [data/underclock/](data/underclock/) | GPU CSVs / plots |
 
+## Models catalog
+
+| Model | Kind | Page |
+|-------|------|------|
+| Qwen3.6 35B-A3B | MoE LLM | [models/qwen3.6-35b-a3b.md](models/qwen3.6-35b-a3b.md) |
+| Qwen3.6 27B MTP | dense LLM + MTP | [models/qwen3.6-27b.md](models/qwen3.6-27b.md) |
+| Gemma 4 12B | dense LLM (± QAT / MTP) | [models/gemma4-12b.md](models/gemma4-12b.md) |
+| Gemma 4 26B-A4B | MoE LLM | [models/gemma4-26b-a4b.md](models/gemma4-26b-a4b.md) |
+| Diffusion Gemma 26B-A4B | text diffusion LLM | [models/diffusion-gemma.md](models/diffusion-gemma.md) |
+| Ternary Bonsai 27B | ternary dense LLM | [models/bonsai-ternary-27b.md](models/bonsai-ternary-27b.md) |
+| Laguna S-2.1 | large MoE (118B-A8B) | [models/laguna-s-2.1.md](models/laguna-s-2.1.md) |
+| Ling-3.0-flash | MoE LLM (atomic-chat Q4_K_M) | [models/ling-3.0-flash.md](models/ling-3.0-flash.md) |
+| Bonsai Image 4B | image gen | [image/bonsai-image-4b.md](image/bonsai-image-4b.md) |
+
 ## Highlights (one line each)
 
 | | pp | tg | Link |
@@ -45,7 +59,11 @@ Details: [HARDWARE.md](HARDWARE.md) · [techniques/kv-cache.md](techniques/kv-ca
 | Gemma 4 26B-A4B (ncmoe 20) | ~690 | ~**39** | [RESULTS](RESULTS.md#gemma-4-26b-a4b) |
 | Laguna S-2.1 **IQ3_S** hybrid (f16 ~32k) | ~202 | ~**23** | [RESULTS](RESULTS.md#laguna-s-21-ud-iq3_s--ud-q4_k_m) · [models](models/laguna-s-2.1.md) |
 | Laguna S-2.1 **Q4_K_M** (q4_0, ncmoe 46, ~164k) | ~54 | ~**12** | same |
+| Ling-3.0-flash **Q4_K_M** hybrid (ncmoe 42) | ~87–135* | ~**16–21** | [RESULTS](RESULTS.md#ling-30-flash-q4_k_m) · [models](models/ling-3.0-flash.md) |
+| Ternary Bonsai 27B | ~440 @24k | ~**23–25** | [RESULTS](RESULTS.md#other-llm) |
 | Bonsai Image 4B | — | ~10 s / ~6.6 GB | [RESULTS](RESULTS.md#image) |
+
+\*Ling first pp4096 cold (~30 t/s); steadier band is pp8k–32k.
 
 Full rows, KV, offload, and depths → **[RESULTS.md](RESULTS.md)**.
 
@@ -87,6 +105,8 @@ export MODEL_DIR=/path/to/ggufs
 | Ternary Bonsai 27B | text LLM |
 | Bonsai Image 4B | image gen |
 | Diffusion Gemma | text diffusion LLM |
+| Laguna S-2.1 | large MoE LLM |
+| Ling-3.0-flash | MoE LLM |
 
 ## Contributing / license
 

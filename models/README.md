@@ -15,6 +15,7 @@ Every LLM page should list **KV cache** (`-ctk` / `-ctv`). Catalog: [../techniqu
 | Diffusion Gemma 26B-A4B | [diffusion-gemma.md](diffusion-gemma.md) | hybrid | llama.cpp branch `nvidia-diffusion-gemma`, `-ngl 15` | **not recorded** |
 | Ternary Bonsai 27B | [bonsai-ternary-27b.md](bonsai-ternary-27b.md) | full GPU in log | llama-server + benchy | **not recorded** |
 | Laguna S-2.1 (118B-A8B MoE) | [laguna-s-2.1.md](laguna-s-2.1.md) | no — hybrid (~46–73 GB) | ngl 999 + ncmoe 44–46 | f16 / q8_0 / q4_0 (see page) |
+| Ling-3.0-flash Q4_K_M (MoE) | [ling-3.0-flash.md](ling-3.0-flash.md) | no — hybrid | ngl 999 + ncmoe 39–42 | **not recorded** (lab) |
 
 ## Flag reference
 
@@ -26,6 +27,6 @@ Every LLM page should list **KV cache** (`-ctk` / `-ctv`). Catalog: [../techniqu
 | `--cpu-moe` | server: experts on CPU |
 | `-t 12` | CPU threads (this machine) |
 | **`-ctk` / `-ctv`** | **K/V cache type (required)** |
-| `-fa 1` | flash attention |
+| `-fa 1` / `-fa on` | flash attention |
 
 Also: [../techniques/moe-offload.md](../techniques/moe-offload.md), [../runtimes/comparison.md](../runtimes/comparison.md).

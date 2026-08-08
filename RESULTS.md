@@ -106,9 +106,25 @@ Page: [models/gemma4-26b-a4b.md](models/gemma4-26b-a4b.md)
 
 | Setup | Offload | KV | Auto ctx | pp | tg | Notes |
 |-------|---------|-----|----------|----|----|-------|
-| long hybrid | ngl 999, **ncmoe 46** | **q4_0 / q4_0** | **~164k** | ~51–57 | ~11–12 long | VRAM ~10.7 GB |
+| long hybrid | ngl 999, **ncmoe 46** | **q4_0 / q4_0** | **~164k** | ~51–57 | ~11–12 long | VRAM ~10.3–10.7 GB; after ~7k PP tg ~9–10.5 |
 | q8 hungrier | ncmoe **46** | **q8_0 / q8_0** | ~80k claimed | — | — | **OOM under load** |
 | more GPU experts | ncmoe **44** | **q8_0 / q8_0** | **4k** | ~24–27 | ~13–14 | not worth it |
+
+Q4 detail (shard sizes, load log, decode progression, tweet block): [models/laguna-s-2.1.md](models/laguna-s-2.1.md).
+
+---
+
+## Ling-3.0-flash Q4_K_M
+
+Atomic-chat STOCK multi-shard GGUF · hybrid on 3060 · llama-benchy (runs 1).  
+Page: [models/ling-3.0-flash.md](models/ling-3.0-flash.md).
+
+| Setup | Runtime | Offload | KV | pp | tg |
+|-------|---------|---------|-----|----|----|
+| Q4_K_M STOCK | ling llama-server (turboquant-oriented) | ngl 999, **ncmoe 42** | **not recorded** | pp8192 **~87** · pp16384 **~119** · pp32768 **~135** | tg256 **~16–21** (peaks ~25–27) |
+| same, cold first cell | same | same | same | pp4096 **~30** (warm-up / mmap) | tg256 **~14** |
+
+Also poked **ncmoe 39** (no full matrix). Prefer SSD path (`krea2-model/ling-3.0-flash`).
 
 ---
 
@@ -119,6 +135,7 @@ Page: [models/gemma4-26b-a4b.md](models/gemma4-26b-a4b.md)
 | Ternary Bonsai 27B | ngl 999, KV not recorded | pp24576 ~440 | tg256 ~23–25 | [models/bonsai-ternary-27b.md](models/bonsai-ternary-27b.md) |
 | Diffusion Gemma 26B | llama.cpp branch `nvidia-diffusion-gemma`, ngl 15 | short prefill ~32–35 | ~0.5 s/step | text diffusion; peak ~10450 MB — [models/diffusion-gemma.md](models/diffusion-gemma.md) |
 | Qwen 27B MTP | commands | — | — | [models/qwen3.6-27b.md](models/qwen3.6-27b.md) |
+| Ling-3.0-flash Q4_K_M | ngl 999, ncmoe 42 | pp8k–32k ~87–135 | tg256 ~16–21 | [models/ling-3.0-flash.md](models/ling-3.0-flash.md) |
 
 ---
 
