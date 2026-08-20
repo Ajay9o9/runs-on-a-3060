@@ -30,6 +30,8 @@ Details: [HARDWARE.md](HARDWARE.md) · [techniques/kv-cache.md](techniques/kv-ca
 | [recipes/](recipes/) | Short copy-paste commands |
 | [recipes/threejs-game-qwen-mtp.md](recipes/threejs-game-qwen-mtp.md) | Three.js game dev: Qwen MTP Q6 server + ik_llama |
 | [data/underclock/](data/underclock/) | GPU CSVs / plots |
+| **[Dashboards](https://ajay9o9.github.io/runs-on-a-3060/)** | HTML reports (GitHub Pages) |
+| [Ornith 1.5 35B dashboard](https://ajay9o9.github.io/runs-on-a-3060/ornith-1.5-35b/) | RAM floors + t/s cards |
 
 ## Models catalog
 
@@ -42,7 +44,8 @@ Details: [HARDWARE.md](HARDWARE.md) · [techniques/kv-cache.md](techniques/kv-ca
 | Diffusion Gemma 26B-A4B | text diffusion LLM | [models/diffusion-gemma.md](models/diffusion-gemma.md) |
 | Ternary Bonsai 27B | ternary dense LLM | [models/bonsai-ternary-27b.md](models/bonsai-ternary-27b.md) |
 | Laguna S-2.1 | large MoE (118B-A8B) | [models/laguna-s-2.1.md](models/laguna-s-2.1.md) |
-| Ling-3.0-flash | MoE LLM (atomic-chat Q4_K_M) | [models/ling-3.0-flash.md](models/ling-3.0-flash.md) |
+| Ling-3.0-flash | MoE LLM ([AtomicChat Q4_K_M GGUF](https://huggingface.co/AtomicChat/Ling-3.0-flash-GGUF)) | [models/ling-3.0-flash.md](models/ling-3.0-flash.md) |
+| Ornith 1.5 35B-A3B | MoE LLM (Q6_K / Q4_K_M / AD mixed) | [models/ornith-1.5-35b.md](models/ornith-1.5-35b.md) |
 | Bonsai Image 4B | image gen | [image/bonsai-image-4b.md](image/bonsai-image-4b.md) |
 
 ## Highlights (one line each)
@@ -60,6 +63,9 @@ Details: [HARDWARE.md](HARDWARE.md) · [techniques/kv-cache.md](techniques/kv-ca
 | Laguna S-2.1 **IQ3_S** hybrid (f16 ~32k) | ~202 | ~**23** | [RESULTS](RESULTS.md#laguna-s-21-ud-iq3_s--ud-q4_k_m) · [models](models/laguna-s-2.1.md) |
 | Laguna S-2.1 **Q4_K_M** (q4_0, ncmoe 46, ~164k) | ~54 | ~**12** | same |
 | Ling-3.0-flash **Q4_K_M** hybrid (ncmoe 42) | ~87–135* | ~**16–21** | [RESULTS](RESULTS.md#ling-30-flash-q4_k_m) · [models](models/ling-3.0-flash.md) |
+| Ornith 1.5 **IQ4_XS-IQ3_S** 16 GB (ncmoe 22, d112k) | — | ~**30.5** | [RESULTS](RESULTS.md#ornith-15-35b-a3b) · [models](models/ornith-1.5-35b.md) |
+| Ornith 1.5 **Q4_K_M** 24 GB (ncmoe 24, d112k) | — | ~**30.6** | same |
+| Ornith 1.5 **Q6_K** 32 GB (ncmoe 28, d112k) | — | ~**27.6** | same |
 | Ternary Bonsai 27B | ~440 @24k | ~**23–25** | [RESULTS](RESULTS.md#other-llm) |
 | Bonsai Image 4B | — | ~10 s / ~6.6 GB | [RESULTS](RESULTS.md#image) |
 
@@ -108,6 +114,7 @@ export MODEL_DIR=/path/to/ggufs
 | Diffusion Gemma | text diffusion LLM |
 | Laguna S-2.1 | large MoE LLM |
 | Ling-3.0-flash | MoE LLM |
+| Ornith 1.5 35B-A3B | MoE LLM |
 
 ## Contributing / license
 

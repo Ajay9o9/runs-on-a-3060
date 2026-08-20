@@ -117,7 +117,7 @@ Q4 detail (shard sizes, load log, decode progression, tweet block): [models/lagu
 ## Ling-3.0-flash Q4_K_M
 
 Atomic-chat STOCK multi-shard GGUF (124B total / 5.1B active) · hybrid on 3060 · llama-benchy (runs 1).  
-Page: [models/ling-3.0-flash.md](models/ling-3.0-flash.md).
+HF: [AtomicChat/Ling-3.0-flash-GGUF](https://huggingface.co/AtomicChat/Ling-3.0-flash-GGUF) · page: [models/ling-3.0-flash.md](models/ling-3.0-flash.md).
 
 | Setup | Runtime | Offload | KV | pp | tg |
 |-------|---------|---------|-----|----|----|
@@ -129,6 +129,26 @@ Stock llama.cpp **cannot** load these files. `*_STOCK` is upstream's control qua
 
 ---
 
+## Ornith 1.5 35B-A3B
+
+MoE (~3B active). Hybrid **`-ngl 999` + `-ncmoe`**. llama.cpp **b10498**. llama-benchy **`--pp 0 --tg 256`**, depths 8k–**112k**, `-c 131072`, KV **q8_0/q8_0** unless noted. **tg** is decode at that depth, not prefill.  
+Page: [models/ornith-1.5-35b.md](models/ornith-1.5-35b.md) · [HTML dashboard](https://ajay9o9.github.io/runs-on-a-3060/ornith-1.5-35b/) · HF: [ornith-ai/Ornith-1.5-35B-A3B](https://huggingface.co/ornith-ai/Ornith-1.5-35B-A3B) · AD GGUFs [AtomicChat/Ornith-1.5-35B-A3B-GGUF](https://huggingface.co/AtomicChat/Ornith-1.5-35B-A3B-GGUF).
+
+RAM floors use a **process cap** (16 GB SKU → 12 GiB, 4 GiB OS). 64 GB host page cache is **not** extra RAM on a smaller box.
+
+| Quant | RAM floor | Offload | KV | tg @8k | tg @32k | tg @112k |
+|-------|-----------|---------|-----|-------:|--------:|---------:|
+| **IQ4_XS-IQ3_S** (~16.4 GB) | **16 GB** | ngl 999, **ncmoe 22** | q8_0 / q8_0 | **56.4** | **47.7** | **30.5** |
+| **Q4_K_M** (~20.2 GB) | **24 GB** | ngl 999, **ncmoe 24** | q8_0 / q8_0 | **55.4** | **47.6** | **30.6** |
+| **Q4_K-IQ4_XS** (~18.7 GB) | **24 GB** | ngl 999, **ncmoe 25** | q8_0 / q8_0 | **53.8** | **44.0** | **29.1** |
+| **Q6_K** (~28 GB) | **32 GB** | ngl 999, **ncmoe 28** | q8_0 / q8_0 | **47.7** | **41.2** | **27.6** |
+
+**8 GB:** no 131k recipe. **16 GB:** only IQ4_XS-IQ3_S completed 112k. Q4_K_M + **q4_0 KV** still died under the 16 GB cap (8k then disconnect). Q4_K-IQ4_XS ncmoe 23 reached 64k on 16 GB then died at 112k. **ncmoe 41** on Q4_K-IQ4_XS: load only, no full bench.
+
+Full ncmoe matrices, RSS/VRAM, commands: [models/ornith-1.5-35b.md](models/ornith-1.5-35b.md).
+
+---
+
 ## Other LLM
 
 | Model | Setup | pp | tg / other | Notes |
@@ -137,6 +157,9 @@ Stock llama.cpp **cannot** load these files. `*_STOCK` is upstream's control qua
 | Diffusion Gemma 26B | llama.cpp branch `nvidia-diffusion-gemma`, ngl 15 | short prefill ~32–35 | ~0.5 s/step | text diffusion; peak ~10450 MB — [models/diffusion-gemma.md](models/diffusion-gemma.md) |
 | Qwen 27B MTP | commands | — | — | [models/qwen3.6-27b.md](models/qwen3.6-27b.md) |
 | Ling-3.0-flash Q4_K_M | ngl 999, ncmoe 42 | pp8k–32k ~87–135 | tg256 ~16–21 | [models/ling-3.0-flash.md](models/ling-3.0-flash.md) |
+| Ornith 1.5 IQ4_XS-IQ3_S | ngl 999, ncmoe 22, d112k | — | tg256 **~30.5** | 16 GB floor — [models/ornith-1.5-35b.md](models/ornith-1.5-35b.md) |
+| Ornith 1.5 Q4_K_M | ngl 999, ncmoe 24, d112k | — | tg256 **~30.6** | 24 GB floor — same |
+| Ornith 1.5 Q6_K | ngl 999, ncmoe 28, d112k | — | tg256 **~27.6** | 32 GB floor — same |
 
 ---
 

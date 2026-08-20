@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>3060 lab reports</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,650&family=IBM+Plex+Mono:wght@400&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --desk: #0c0908; --paper: #16110e; --ink: #f6eee6;
+    --muted: #b9a394; --line: #3d2f26; --accent: #fd8e5b;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; background: var(--desk); color: var(--ink);
+    font: 16px/1.4 "Source Sans 3", "Segoe UI", sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 48px 20px 80px; }
+  .kicker {
+    font-family: "IBM Plex Mono", monospace; font-size: 12px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent);
+  }
+  h1 {
+    font-family: Fraunces, Georgia, serif; font-size: 36px; font-weight: 650;
+    letter-spacing: -0.03em; margin: 8px 0 10px;
+  }
+  p { color: var(--muted); max-width: 52ch; }
+  a { color: var(--accent); }
+  .card {
+    display: block; margin-top: 28px; padding: 20px 22px;
+    background: var(--paper); border: 1px solid var(--line); border-radius: 14px;
+    text-decoration: none; color: inherit;
+  }
+  .card:hover { border-color: var(--accent); }
+  .card h2 { font-family: Fraunces, serif; font-size: 22px; margin: 0 0 6px; }
+  .card p { margin: 0; font-size: 15px; }
+  footer {
+    margin-top: 40px; font-family: "IBM Plex Mono", monospace;
+    font-size: 12px; color: var(--muted);
+  }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">runs-on-a-3060</p>
+  <h1>Lab reports</h1>
+  <p>HTML dashboards from the same RTX 3060 12 GB box. Markdown commands and tables live in the
+  <a href="https://github.com/Ajay9o9/runs-on-a-3060">GitHub repo</a>. New model → new folder under this site.</p>
+
+  <a class="card" href="ornith-1.5-35b/">
+    <h2>Ornith 1.5 35B-A3B</h2>
+    <p>Q6_K · Q4_K_M · AD-Q4_K-IQ4_XS · AD-IQ4_XS-IQ3_S · ngl 999 · q8 KV · 112k · RAM floors 16/24/32 GB</p>
+  </a>
+
+  <footer>
+    <a href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+    · DDR5-6000 · llama.cpp
+  </footer>
+</main>
+</body>
+</html>

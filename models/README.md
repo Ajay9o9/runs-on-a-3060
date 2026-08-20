@@ -16,6 +16,7 @@ Every LLM page should list **KV cache** (`-ctk` / `-ctv`). Catalog: [../techniqu
 | Ternary Bonsai 27B | [bonsai-ternary-27b.md](bonsai-ternary-27b.md) | full GPU in log | llama-server + benchy | **not recorded** |
 | Laguna S-2.1 (118B-A8B MoE) | [laguna-s-2.1.md](laguna-s-2.1.md) | no — hybrid (~46–73 GB) | ngl 999 + ncmoe 44–46 | f16 / q8_0 / q4_0 (see page) |
 | Ling-3.0-flash Q4_K_M (MoE) | [ling-3.0-flash.md](ling-3.0-flash.md) | no — hybrid | ngl 999 + ncmoe 39–42 | **not recorded** (lab) |
+| Ornith 1.5 35B-A3B (MoE) | [ornith-1.5-35b.md](ornith-1.5-35b.md) | no — hybrid | **ngl 999** + ncmoe 22–28 (quant) | **q8_0 / q8_0** (q4_0 poke on Q4_K_M) |
 
 ## Flag reference
 

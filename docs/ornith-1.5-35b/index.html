@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Ornith 1.5 35B · RTX 3060</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=IBM+Plex+Mono:wght@400;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --paper: #16110e;
+    --ink: #f6eee6;
+    --muted: #b9a394;
+    --line: #3d2f26;
+    --accent: #fd8e5b;
+    --yes: #8ad4a6;
+    --no: #6b5348;
+    --q4: #fd8e5b;
+    --q6: #7eb8d4;
+    --desk: #0c0908;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; background: var(--desk); color: var(--ink);
+    font: 16px/1.35 "Source Sans 3", "Segoe UI", sans-serif;
+  }
+  .desk {
+    min-height: 100vh;
+    padding: 28px 16px 48px;
+    display: flex; flex-direction: column; align-items: center; gap: 22px;
+  }
+  .hint-top {
+    color: #8a7a70; font-size: 13px; letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .slide {
+    width: 1080px; max-width: 100%;
+    min-height: 608px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 40px 44px 36px;
+    box-shadow: 0 24px 60px #0008;
+    display: flex; flex-direction: column;
+    position: relative;
+  }
+  .slide > .by {
+    position: absolute; top: 22px; right: 28px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px; letter-spacing: 0.04em;
+    color: var(--muted); text-decoration: none;
+    z-index: 1;
+  }
+  .slide > .by:hover { color: var(--accent); }
+  .slide > .foot { margin-top: auto; padding-top: 18px; }
+  .kicker {
+    color: var(--accent); font-family: "IBM Plex Mono", monospace;
+    font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-family: Fraunces, Georgia, serif;
+    font-size: 38px; font-weight: 650; letter-spacing: -0.03em;
+    line-height: 1.15; margin: 0 0 8px;
+    white-space: nowrap;
+  }
+  h1 .hi { color: var(--accent); }
+  h2 {
+    font-family: Fraunces, Georgia, serif;
+    font-size: 28px; font-weight: 650; margin: 0 0 18px; letter-spacing: -0.02em;
+  }
+  .lede { color: var(--muted); margin: 0 0 22px; font-size: 17px; max-width: 54ch; }
+  .hls { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .matrix { font-size: 13px; }
+  .hl {
+    border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .hl .q {
+    font-family: "IBM Plex Mono", monospace; font-size: 12px;
+    letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase;
+  }
+  .hl .big { font-family: Fraunces, serif; font-size: 40px; font-weight: 650; }
+  .hl .sub { color: var(--muted); }
+  .meta {
+    margin-top: 22px; display: flex; gap: 18px; flex-wrap: wrap;
+    color: var(--muted); font-size: 13px;
+    font-family: "IBM Plex Mono", monospace;
+  }
+  table.matrix { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  table.matrix th, table.matrix td {
+    text-align: center; padding: 12px 8px; border-bottom: 1px solid var(--line);
+  }
+  table.matrix thead th {
+    color: var(--muted); font-size: 13px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  table.matrix tbody th { text-align: left; font-size: 18px; font-weight: 600; }
+  td.yes { color: var(--yes); font-family: "IBM Plex Mono", monospace; }
+  td.yes small { display: block; color: #9ec9a8; font-weight: 400; font-size: 12px; margin-top: 3px; }
+  td.no { color: #c4a090; font-family: "IBM Plex Mono", monospace; font-size: 14px; }
+  table.runs { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 14px; }
+  table.runs th, table.runs td {
+    padding: 7px 8px; border-bottom: 1px solid var(--line); text-align: left;
+  }
+  table.runs thead th {
+    color: var(--muted); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  table.runs td.num { text-align: right; font-family: "IBM Plex Mono", monospace; font-size: 14px; font-weight: 400; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+  .cols3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; align-items: start; }
+  .barrow { display: grid; grid-template-columns: 42px 1fr 42px; gap: 8px; align-items: center; margin: 7px 0; }
+  .bl, .bn { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--muted); }
+  .bn { text-align: right; color: var(--ink); }
+  .track { height: 10px; background: #2a211c; border-radius: 99px; overflow: hidden; }
+  .track i { display: block; height: 100%; background: var(--accent); border-radius: 99px; }
+  .q6 .track i { background: var(--q6); }
+  table.speed { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  table.speed th, table.speed td { padding: 8px 6px; border-bottom: 1px solid var(--line); }
+  table.speed thead th { color: var(--muted); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+  table.speed tbody th { text-align: left; font-family: "IBM Plex Mono", monospace; font-weight: 400; color: var(--muted); }
+  td.num { text-align: right; font-family: "IBM Plex Mono", monospace; font-size: 20px; font-weight: 600; }
+  pre.cmd {
+    background: #0f0c0a; border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px; font: 13px/1.45 "IBM Plex Mono", monospace;
+    white-space: pre-wrap; color: #f0d9c8; margin: 0 0 12px;
+  }
+  .foot { margin-top: 16px; color: var(--muted); font-size: 13px; }
+  details.lab { width: 1080px; max-width: 100%; color: var(--muted); font-size: 13px; }
+  details.lab summary { cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="desk">
+  <div class="hint-top">lab notes · RTX 3060 12 GB · DDR5-6000 · llama.cpp</div>
+
+  <article class="slide" id="s1">
+    <a class="by" href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+    <p class="kicker">llama.cpp · local MoE</p>
+    <h1>Ornith 1.5 35B on a 12 GB <span class="hi">3060</span></h1>
+    <p class="lede"><code>-ngl 999</code> · q8 KV · 131k reserved. Only the IQ3 mix
+    held a full 112k gen on a 16 GB cap. RAM numbers are peak RSS, not this 64 GB box’s page cache.</p>
+    <div class="hls">
+      <div class='hl'><span class='q'>Q4_K_M</span><span class='big'>24 GB RAM</span><span class='sub'>-ncmoe 24 · 31 t/s @ 112k</span></div>
+      <div class='hl'><span class='q'>Q4_K-IQ4_XS</span><span class='big'>24 GB RAM</span><span class='sub'>-ncmoe 25 · 29 t/s @ 112k</span></div>
+      <div class='hl'><span class='q'>IQ4_XS-IQ3_S</span><span class='big'>16 GB RAM</span><span class='sub'>-ncmoe 22 · 30 t/s @ 112k</span></div>
+      <div class='hl'><span class='q'>Q6_K</span><span class='big'>32 GB RAM</span><span class='sub'>-ncmoe 28 · 28 t/s @ 112k</span></div>
+    </div>
+    <div class="meta">
+      <span>NVIDIA GeForce RTX 3060</span>
+      <span>12 GB VRAM</span>
+      <span>KV q8_0 / q8_0</span>
+      <span>ctx 131,072</span>
+      <span>DDR5-6000</span>
+      <span>llama-benchy · tg 256 · pp 0</span>
+    </div>
+  </article>
+
+  <article class="slide" id="s2">
+    <a class="by" href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+    <p class="kicker">what to run</p>
+    <h2>RAM → <span style="color:var(--accent)">-ncmoe</span></h2>
+    <table class="matrix">
+      <thead><tr><th></th><th>Q4_K_M</th><th>Q4_K-IQ4_XS</th><th>IQ4_XS-IQ3_S</th><th>Q6_K</th></tr></thead>
+      <tbody>
+        <tr><th>8 GB</th><td class='no'>won't fit</td><td class='no'>won't fit</td><td class='no'>won't fit</td><td class='no'>won't fit</td></tr><tr><th>16 GB</th><td class='no'>won't fit</td><td class='no'>won't fit</td><td class='yes'><b>-ncmoe 22</b><small>112k / 131k</small></td><td class='no'>won't fit</td></tr><tr><th>24 GB</th><td class='yes'><b>-ncmoe 24</b><small>112k / 131k</small></td><td class='yes'><b>-ncmoe 25</b><small>112k / 131k</small></td><td class='yes'><b>-ncmoe 22</b><small>112k / 131k</small></td><td class='no'>won't fit</td></tr><tr><th>32 GB</th><td class='yes'><b>-ncmoe 24</b><small>112k / 131k</small></td><td class='yes'><b>-ncmoe 25</b><small>112k / 131k</small></td><td class='yes'><b>-ncmoe 22</b><small>112k / 131k</small></td><td class='yes'><b>-ncmoe 28</b><small>112k / 131k</small></td></tr><tr><th>64 GB</th><td class='yes'><b>-ncmoe 24</b><small>112k / 131k</small></td><td class='yes'><b>-ncmoe 25</b><small>112k / 131k</small></td><td class='yes'><b>-ncmoe 22</b><small>112k / 131k</small></td><td class='yes'><b>-ncmoe 28</b><small>112k / 131k</small></td></tr>
+      </tbody>
+    </table>
+    <p class="foot">Lowest <code>-ncmoe</code> that completed 112k gen under that RAM cap.
+    <code>-ngl 999 -c 131072</code>. Partial runs (died mid-benchy) do not count as a recipe.</p>
+  </article>
+
+  <article class="slide" id="s2b">
+    <a class="by" href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+    <p class="kicker">every run</p>
+    <h2>Max context that actually ran</h2>
+    <table class="runs">
+      <thead>
+        <tr>
+          <th>quant</th><th>ncmoe</th><th>KV</th><th>RAM cap</th><th>VRAM</th><th>max ctx</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Q6_K</td><td class='num'>28</td><td>q8_0</td><td class='num'>32</td><td class='num'>11.4</td><td class='yes'>112k / 131k</td></tr><tr><td>Q6_K</td><td class='num'>30</td><td>q8_0</td><td class='num'>32</td><td class='num'>10.2</td><td class='yes'>112k / 131k</td></tr><tr><td>Q6_K</td><td class='num'>33</td><td>q8_0</td><td class='num'>32</td><td class='num'>8.3</td><td class='yes'>112k / 131k</td></tr><tr><td>Q6_K</td><td class='num'>35</td><td>q8_0</td><td class='num'>32</td><td class='num'>7.1</td><td class='yes'>112k / 131k</td></tr><tr><td>Q6_K</td><td class='num'>41</td><td>q8_0</td><td class='num'>64</td><td class='num'>4.0</td><td class='yes'>112k / 131k</td></tr><tr><td>Q4_K_M</td><td class='num'>24</td><td>q8_0</td><td class='num'>24</td><td class='num'>11.2</td><td class='yes'>112k / 131k</td></tr><tr><td>Q4_K_M</td><td class='num'>26</td><td>q8_0</td><td class='num'>24</td><td class='num'>10.3</td><td class='yes'>112k / 131k</td></tr><tr><td>Q4_K_M</td><td class='num'>29</td><td>q8_0</td><td class='num'>24</td><td class='num'>9.0</td><td class='yes'>112k / 131k</td></tr><tr><td>Q4_K_M</td><td class='num'>30</td><td>q8_0</td><td class='num'>24</td><td class='num'>8.6</td><td class='yes'>112k / 131k</td></tr><tr><td>Q4_K_M</td><td class='num'>35</td><td>q8_0</td><td class='num'>24</td><td class='num'>6.3</td><td class='yes'>112k / 131k</td></tr><tr><td>Q4_K_M</td><td class='num'>41</td><td>q8_0</td><td class='num'>32</td><td class='num'>3.9</td><td class='yes'>112k / 131k</td></tr><tr><td>Q4_K_M_q4kv</td><td class='num'>23</td><td>q4_0</td><td class='num'>16</td><td class='num'>11.0</td><td class='no'>8k (died after)</td></tr><tr><td>Q4_K_M_q4kv</td><td class='num'>23</td><td>q4_0</td><td class='num'>24</td><td class='num'>11.0</td><td class='yes'>112k / 131k</td></tr><tr><td>Q4_K-IQ4_XS</td><td class='num'>23</td><td>q8_0</td><td class='num'>16</td><td class='num'>11.4</td><td class='no'>64k (died after)</td></tr><tr><td>Q4_K-IQ4_XS</td><td class='num'>23</td><td>q8_0</td><td class='num'>8</td><td class='num'>11.5</td><td class='no'>64k (died after)</td></tr><tr><td>Q4_K-IQ4_XS</td><td class='num'>25</td><td>q8_0</td><td class='num'>24</td><td class='num'>10.6</td><td class='yes'>112k / 131k</td></tr><tr><td>Q4_K-IQ4_XS</td><td class='num'>28</td><td>q8_0</td><td class='num'>24</td><td class='num'>9.4</td><td class='yes'>112k / 131k</td></tr><tr><td>Q4_K-IQ4_XS</td><td class='num'>30</td><td>q8_0</td><td class='num'>24</td><td class='num'>8.6</td><td class='yes'>112k / 131k</td></tr><tr><td>Q4_K-IQ4_XS</td><td class='num'>35</td><td>q8_0</td><td class='num'>24</td><td class='num'>6.5</td><td class='yes'>112k / 131k</td></tr><tr><td>IQ4_XS-IQ3_S</td><td class='num'>22</td><td>q8_0</td><td class='num'>16</td><td class='num'>10.8</td><td class='yes'>112k / 131k</td></tr><tr><td>IQ4_XS-IQ3_S</td><td class='num'>25</td><td>q8_0</td><td class='num'>16</td><td class='num'>9.6</td><td class='yes'>112k / 131k</td></tr><tr><td>IQ4_XS-IQ3_S</td><td class='num'>30</td><td>q8_0</td><td class='num'>24</td><td class='num'>7.9</td><td class='yes'>112k / 131k</td></tr><tr><td>IQ4_XS-IQ3_S</td><td class='num'>35</td><td>q8_0</td><td class='num'>24</td><td class='num'>6.3</td><td class='yes'>112k / 131k</td></tr><tr><td>IQ4_XS-IQ3_S</td><td class='num'>41</td><td>q8_0</td><td class='num'>24</td><td class='num'>4.7</td><td class='yes'>112k / 131k</td></tr>
+      </tbody>
+    </table>
+    <p class="foot">Every start used <code>-ngl 999 -c 131072</code>. “112k / 131k” means benchy
+    finished 112640 tokens of depth with 131k KV reserved. We did not search a higher <code>-c</code>.</p>
+  </article>
+
+  <article class="slide" id="s3">
+    <a class="by" href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+    <p class="kicker">generation speed</p>
+    <h2>t/s at the recipes above</h2>
+    <div class="cols3">
+      <div>
+        <p class="kicker" style="color:var(--q4)">IQ3 mix · 16 GB · -ncmoe 22</p>
+        <div class='barrow'><span class='bl'>8k</span><span class='track'><i style='width:100.0%'></i></span><span class='bn'>56</span></div><div class='barrow'><span class='bl'>16k</span><span class='track'><i style='width:92.8%'></i></span><span class='bn'>52</span></div><div class='barrow'><span class='bl'>32k</span><span class='track'><i style='width:84.5%'></i></span><span class='bn'>48</span></div><div class='barrow'><span class='bl'>64k</span><span class='track'><i style='width:66.9%'></i></span><span class='bn'>38</span></div><div class='barrow'><span class='bl'>112k</span><span class='track'><i style='width:54.0%'></i></span><span class='bn'>30</span></div>
+      </div>
+      <div>
+        <p class="kicker" style="color:var(--q4)">Q4_K_M · 24 GB · -ncmoe 24</p>
+        <div class='barrow'><span class='bl'>8k</span><span class='track'><i style='width:98.1%'></i></span><span class='bn'>55</span></div><div class='barrow'><span class='bl'>16k</span><span class='track'><i style='width:85.3%'></i></span><span class='bn'>48</span></div><div class='barrow'><span class='bl'>32k</span><span class='track'><i style='width:84.4%'></i></span><span class='bn'>48</span></div><div class='barrow'><span class='bl'>64k</span><span class='track'><i style='width:69.9%'></i></span><span class='bn'>39</span></div><div class='barrow'><span class='bl'>112k</span><span class='track'><i style='width:54.2%'></i></span><span class='bn'>31</span></div>
+      </div>
+      <div class="q6">
+        <p class="kicker" style="color:var(--q6)">Q6_K · 32 GB · -ncmoe 28</p>
+        <div class='barrow'><span class='bl'>8k</span><span class='track'><i style='width:84.5%'></i></span><span class='bn'>48</span></div><div class='barrow'><span class='bl'>16k</span><span class='track'><i style='width:83.1%'></i></span><span class='bn'>47</span></div><div class='barrow'><span class='bl'>32k</span><span class='track'><i style='width:73.0%'></i></span><span class='bn'>41</span></div><div class='barrow'><span class='bl'>64k</span><span class='track'><i style='width:61.3%'></i></span><span class='bn'>35</span></div><div class='barrow'><span class='bl'>112k</span><span class='track'><i style='width:49.0%'></i></span><span class='bn'>28</span></div>
+      </div>
+    </div>
+    <p class="foot">llama-benchy · tg 256 · pp 0 · 1 run · no warmup.
+    Host RAM is <strong>DDR5-6000</strong> (64 GB). Hybrid MoE decode hits those CPU experts, so slower
+    RAM (DDR4, lower MT/s, dual-channel vs this) will not match these t/s — especially at high <code>-ncmoe</code>.</p>
+  </article>
+
+  <article class="slide" id="s4">
+    <a class="by" href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+    <p class="kicker">copy / paste</p>
+    <h2>llama-server</h2>
+    <pre class="cmd"># 16 GB RAM · IQ4_XS-IQ3_S
+llama-server -m Ornith-1.5-35B-A3B-AD-IQ4_XS-IQ3_S.gguf \
+  -ngl 999 -ncmoe 22 -fa on --jinja -np 1 -t 12 \
+  --cache-type-k q8_0 --cache-type-v q8_0 -c 131072</pre>
+    <pre class="cmd"># 24 GB RAM · Q4_K_M
+llama-server -m Ornith-1.5-35B-Q4_K_M.gguf \
+  -ngl 999 -ncmoe 24 -fa on --jinja -np 1 -t 12 \
+  --cache-type-k q8_0 --cache-type-v q8_0 -c 131072</pre>
+    <pre class="cmd"># 24 GB RAM · Q4_K-IQ4_XS
+llama-server -m Ornith-1.5-35B-A3B-AD-Q4_K-IQ4_XS.gguf \
+  -ngl 999 -ncmoe 25 -fa on --jinja -np 1 -t 12 \
+  --cache-type-k q8_0 --cache-type-v q8_0 -c 131072</pre>
+    <pre class="cmd"># 32 GB RAM · Q6_K
+llama-server -m Ornith-1.5-35B-Q6_K.gguf \
+  -ngl 999 -ncmoe 28 -fa on --jinja -np 1 -t 12 \
+  --cache-type-k q8_0 --cache-type-v q8_0 -c 131072</pre>
+    <p class="foot">Measured Aug 2026 · llama-benchy depths 8k–112k · 1 run · no warmup.
+    RSS, not host Cached, is the RAM number that transfers to smaller PCs.</p>
+  </article>
+
+  <article class="slide" id="s5">
+    <a class="by" href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+    <p class="kicker">16 GB · what actually worked</p>
+    <h2>Only the IQ3 mix held 112k</h2>
+    <p class="lede">Same 3060, <code>-ngl 999</code>, q8 KV, <code>-c 131072</code>.
+    16 GB means a 12 GB process cap (4 GB left for the OS).</p>
+    <div class="hls">
+      <div class="hl">
+        <span class="q">IQ4_XS-IQ3_S · -ncmoe 22</span>
+        <span class="big" style="color:var(--yes)">16 GB</span>
+        <span class="sub">full 8k–112k · ~56 → 31 t/s</span>
+      </div>
+      <div class="hl">
+        <span class="q">Q4_K_M · q8 or q4 KV</span>
+        <span class="big" style="color:#e07a5f">no</span>
+        <span class="sub">q4 KV still died under the 16 GB cap</span>
+      </div>
+      <div class="hl">
+        <span class="q">Q4_K-IQ4_XS · -ncmoe 23</span>
+        <span class="big" style="color:#e07a5f">no</span>
+        <span class="sub">16 GB ran to 64k, died at 112k</span>
+      </div>
+      <div class="hl">
+        <span class="q">Q6_K</span>
+        <span class="big" style="color:#e07a5f">32 GB</span>
+        <span class="sub">peak RSS ~22 G · -ncmoe 28</span>
+      </div>
+    </div>
+    <p class="foot">We did not quality-bench these GGUFs. Speeds are llama-benchy tg=256, 1 run, no warmup.</p>
+  </article>
+</div>
+</body>
+</html>

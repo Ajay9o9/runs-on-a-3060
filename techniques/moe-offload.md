@@ -10,6 +10,8 @@ Flag notes and measured deltas on the lab machine.
 
 Other RAM sizes will not match hybrid Q5/Q6 35B host footprints here.
 
+**Ornith 1.5 35B** (2026-08-20): same **`-ngl 999`**, sweep **`-ncmoe`** + RAM cap. **16 GB** (12 GiB process) only held full 112k on **IQ4_XS-IQ3_S ncmoe 22**; Q4_K_M / Q6_K need **24 / 32 GB**. Page: [../models/ornith-1.5-35b.md](../models/ornith-1.5-35b.md).
+
 **Runtime for the Q4 series below:** [TheTom/llama-cpp-turboquant](https://github.com/TheTom/llama-cpp-turboquant).  
 **KV:** `-ctk turbo4 -ctv turbo3`.  
 Offload and KV both change VRAM; log both. See [kv-cache.md](kv-cache.md).

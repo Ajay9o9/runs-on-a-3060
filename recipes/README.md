@@ -62,6 +62,41 @@ Always set **`-ctk` / `-ctv`** for LLM — see [../techniques/kv-cache.md](../te
   -fa 1 -ctk q8_0 -ctv q8_0
 ```
 
+## Ornith 1.5 35B-A3B (llama.cpp b10498)
+
+**KV:** `q8_0` / `q8_0` · **always `-ngl 999`** · `-c 131072`  
+Page: [../models/ornith-1.5-35b.md](../models/ornith-1.5-35b.md)
+
+```bash
+# 16 GB RAM
+./build/bin/llama-server \
+  -m $MODEL_DIR/Ornith-1.5-35B-A3B-AD-IQ4_XS-IQ3_S.gguf \
+  -ngl 999 -ncmoe 22 -fa on --jinja -np 1 -t 12 \
+  -ctk q8_0 -ctv q8_0 -c 131072 \
+  --host 127.0.0.1 --port 8080
+
+# 24 GB RAM — Q4_K_M
+./build/bin/llama-server \
+  -m $MODEL_DIR/Ornith-1.5-35B-Q4_K_M.gguf \
+  -ngl 999 -ncmoe 24 -fa on --jinja -np 1 -t 12 \
+  -ctk q8_0 -ctv q8_0 -c 131072 \
+  --host 127.0.0.1 --port 8080
+
+# 24 GB RAM — AD Q4_K-IQ4_XS
+./build/bin/llama-server \
+  -m $MODEL_DIR/Ornith-1.5-35B-A3B-AD-Q4_K-IQ4_XS.gguf \
+  -ngl 999 -ncmoe 25 -fa on --jinja -np 1 -t 12 \
+  -ctk q8_0 -ctv q8_0 -c 131072 \
+  --host 127.0.0.1 --port 8080
+
+# 32 GB RAM — Q6_K
+./build/bin/llama-server \
+  -m $MODEL_DIR/Ornith-1.5-35B-Q6_K.gguf \
+  -ngl 999 -ncmoe 28 -fa on --jinja -np 1 -t 12 \
+  -ctk q8_0 -ctv q8_0 -c 131072 \
+  --host 127.0.0.1 --port 8080
+```
+
 ## Power limit (as measured)
 
 ```bash
