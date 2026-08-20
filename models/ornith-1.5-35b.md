@@ -10,7 +10,7 @@ KV catalog: [../techniques/kv-cache.md](../techniques/kv-cache.md) · offload: [
 
 Tokenizer for benchy: `ornith-ai/Ornith-1.5-35B-A3B`. No quality eval in this session.
 
-**Dashboard:** [ajay9o9.github.io/runs-on-a-3060/ornith-1.5-35b](https://ajay9o9.github.io/runs-on-a-3060/ornith-1.5-35b/)
+**Report:** [ajay9o9.github.io/runs-on-a-3060/reports/ornith-1.5-35b](https://ajay9o9.github.io/runs-on-a-3060/reports/ornith-1.5-35b/)
 
 ## Model / files
 

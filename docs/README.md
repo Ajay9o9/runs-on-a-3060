@@ -1,17 +1,17 @@
-# GitHub Pages dashboards
+# GitHub Pages reports
 
-This `docs/` folder is the Pages site. One HTML report per model:
+`docs/` is the Pages root (Settings → Pages → `main` / `/docs`). Reports live under `reports/`:
 
 ```text
 docs/
-  index.html                 ← listing
-  ornith-1.5-35b/index.html  ← this report
-  <future-model>/index.html
+  index.html                           ← listing
+  reports/ornith-1.5-35b/index.html    ← this report
+  reports/<future-model>/index.html
 ```
 
-Live (after Pages is on, source **main** / **docs**):
+Live:
 
 - Listing: https://ajay9o9.github.io/runs-on-a-3060/
-- Ornith: https://ajay9o9.github.io/runs-on-a-3060/ornith-1.5-35b/
+- Ornith: https://ajay9o9.github.io/runs-on-a-3060/reports/ornith-1.5-35b/
 
-To add another model: drop `index.html` in `docs/<slug>/` and add a card on `docs/index.html`. Keep the markdown bench log in `models/`.
+To add another model: put `index.html` in `docs/reports/<slug>/` and add a card on `docs/index.html`. Keep the markdown bench log in `models/`.

@@ -132,7 +132,7 @@ Stock llama.cpp **cannot** load these files. `*_STOCK` is upstream's control qua
 ## Ornith 1.5 35B-A3B
 
 MoE (~3B active). Hybrid **`-ngl 999` + `-ncmoe`**. llama.cpp **b10498**. llama-benchy **`--pp 0 --tg 256`**, depths 8k–**112k**, `-c 131072`, KV **q8_0/q8_0** unless noted. **tg** is decode at that depth, not prefill.  
-Page: [models/ornith-1.5-35b.md](models/ornith-1.5-35b.md) · [HTML dashboard](https://ajay9o9.github.io/runs-on-a-3060/ornith-1.5-35b/) · HF: [ornith-ai/Ornith-1.5-35B-A3B](https://huggingface.co/ornith-ai/Ornith-1.5-35B-A3B) · AD GGUFs [AtomicChat/Ornith-1.5-35B-A3B-GGUF](https://huggingface.co/AtomicChat/Ornith-1.5-35B-A3B-GGUF).
+Page: [models/ornith-1.5-35b.md](models/ornith-1.5-35b.md) · [HTML report](https://ajay9o9.github.io/runs-on-a-3060/reports/ornith-1.5-35b/) · HF: [ornith-ai/Ornith-1.5-35B-A3B](https://huggingface.co/ornith-ai/Ornith-1.5-35B-A3B) · AD GGUFs [AtomicChat/Ornith-1.5-35B-A3B-GGUF](https://huggingface.co/AtomicChat/Ornith-1.5-35B-A3B-GGUF).
 
 RAM floors use a **process cap** (16 GB SKU → 12 GiB, 4 GiB OS). 64 GB host page cache is **not** extra RAM on a smaller box.
 

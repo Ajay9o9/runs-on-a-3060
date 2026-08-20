@@ -30,8 +30,8 @@ Details: [HARDWARE.md](HARDWARE.md) · [techniques/kv-cache.md](techniques/kv-ca
 | [recipes/](recipes/) | Short copy-paste commands |
 | [recipes/threejs-game-qwen-mtp.md](recipes/threejs-game-qwen-mtp.md) | Three.js game dev: Qwen MTP Q6 server + ik_llama |
 | [data/underclock/](data/underclock/) | GPU CSVs / plots |
-| **[Dashboards](https://ajay9o9.github.io/runs-on-a-3060/)** | HTML reports (GitHub Pages) |
-| [Ornith 1.5 35B dashboard](https://ajay9o9.github.io/runs-on-a-3060/ornith-1.5-35b/) | RAM floors + t/s cards |
+| **[Reports](https://ajay9o9.github.io/runs-on-a-3060/)** | HTML reports (GitHub Pages) |
+| [Ornith 1.5 35B report](https://ajay9o9.github.io/runs-on-a-3060/reports/ornith-1.5-35b/) | RAM floors + t/s cards |
 
 ## Models catalog
 
