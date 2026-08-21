@@ -39,19 +39,21 @@
     background: var(--paper);
     border: 1px solid var(--line);
     border-radius: 18px;
-    padding: 40px 44px 36px;
+    padding: 48px 44px 36px;
     box-shadow: 0 24px 60px #0008;
     display: flex; flex-direction: column;
     position: relative;
   }
   .slide > .by {
-    position: absolute; top: 22px; right: 28px;
+    position: absolute; top: 18px; right: 28px;
     font-family: "IBM Plex Mono", monospace;
-    font-size: 12px; letter-spacing: 0.04em;
-    color: var(--muted); text-decoration: none;
-    z-index: 1;
+    font-size: 11px; letter-spacing: 0.03em;
+    color: var(--muted); z-index: 1;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 2px;
+    text-align: right;
   }
-  .slide > .by:hover { color: var(--accent); }
+  .slide > .by a { color: var(--muted); text-decoration: none; }
+  .slide > .by a:hover { color: var(--accent); }
   .slide > .foot { margin-top: auto; padding-top: 18px; }
   .kicker {
     color: var(--accent); font-family: "IBM Plex Mono", monospace;
@@ -128,6 +130,12 @@
   .foot { margin-top: 16px; color: var(--muted); font-size: 13px; }
   details.lab { width: 1080px; max-width: 100%; color: var(--muted); font-size: 13px; }
   details.lab summary { cursor: pointer; }
+  .site-foot {
+    width: 1080px; max-width: 100%;
+    font-family: "IBM Plex Mono", monospace; font-size: 13px;
+    color: var(--muted); text-align: center;
+  }
+  .site-foot a { color: var(--accent); text-decoration: none; }
 </style>
 </head>
 <body>
@@ -135,7 +143,10 @@
   <div class="hint-top">lab notes · RTX 3060 12 GB · DDR5-6000 · llama.cpp</div>
 
   <article class="slide" id="s1">
-    <a class="by" href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+    <div class="by">
+      <a href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+      <a href="https://github.com/Ajay9o9/runs-on-a-3060">github.com/Ajay9o9/runs-on-a-3060</a>
+    </div>
     <p class="kicker">llama.cpp · local MoE</p>
     <h1>Ornith 1.5 35B on a 12 GB <span class="hi">3060</span></h1>
     <p class="lede"><code>-ngl 999</code> · q8 KV · 131k reserved. Only the IQ3 mix
@@ -157,7 +168,10 @@
   </article>
 
   <article class="slide" id="s2">
-    <a class="by" href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+    <div class="by">
+      <a href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+      <a href="https://github.com/Ajay9o9/runs-on-a-3060">github.com/Ajay9o9/runs-on-a-3060</a>
+    </div>
     <p class="kicker">what to run</p>
     <h2>RAM → <span style="color:var(--accent)">-ncmoe</span></h2>
     <table class="matrix">
@@ -171,7 +185,10 @@
   </article>
 
   <article class="slide" id="s2b">
-    <a class="by" href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+    <div class="by">
+      <a href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+      <a href="https://github.com/Ajay9o9/runs-on-a-3060">github.com/Ajay9o9/runs-on-a-3060</a>
+    </div>
     <p class="kicker">every run</p>
     <h2>Max context that actually ran</h2>
     <table class="runs">
@@ -189,7 +206,10 @@
   </article>
 
   <article class="slide" id="s3">
-    <a class="by" href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+    <div class="by">
+      <a href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+      <a href="https://github.com/Ajay9o9/runs-on-a-3060">github.com/Ajay9o9/runs-on-a-3060</a>
+    </div>
     <p class="kicker">generation speed</p>
     <h2>t/s at the recipes above</h2>
     <div class="cols3">
@@ -212,7 +232,10 @@
   </article>
 
   <article class="slide" id="s4">
-    <a class="by" href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+    <div class="by">
+      <a href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+      <a href="https://github.com/Ajay9o9/runs-on-a-3060">github.com/Ajay9o9/runs-on-a-3060</a>
+    </div>
     <p class="kicker">copy / paste</p>
     <h2>llama-server</h2>
     <pre class="cmd"># 16 GB RAM · IQ4_XS-IQ3_S
@@ -236,7 +259,10 @@ llama-server -m Ornith-1.5-35B-Q6_K.gguf \
   </article>
 
   <article class="slide" id="s5">
-    <a class="by" href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+    <div class="by">
+      <a href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+      <a href="https://github.com/Ajay9o9/runs-on-a-3060">github.com/Ajay9o9/runs-on-a-3060</a>
+    </div>
     <p class="kicker">16 GB · what actually worked</p>
     <h2>Only the IQ3 mix held 112k</h2>
     <p class="lede">Same 3060, <code>-ngl 999</code>, q8 KV, <code>-c 131072</code>.
@@ -265,6 +291,11 @@ llama-server -m Ornith-1.5-35B-Q6_K.gguf \
     </div>
     <p class="foot">We did not quality-bench these GGUFs. Speeds are llama-benchy tg=256, 1 run, no warmup.</p>
   </article>
+  <p class="site-foot">
+    <a href="https://x.com/ItsmeAjayKV">X@itsmeAjayKV</a>
+    ·
+    <a href="https://github.com/Ajay9o9/runs-on-a-3060">github.com/Ajay9o9/runs-on-a-3060</a>
+  </p>
 </div>
 </body>
 </html>
