@@ -1,6 +1,6 @@
 # runs-on-a-3060
 
-Bench logs and commands for local LLM and image models on **RTX 3060 12GB**.
+Bench logs and commands for local LLM, image, and video models on **RTX 3060 12GB**.
 
 Reference only: hardware, flags, **KV**, prefill (**pp**), generation (**tg**), VRAM. Not a guide or blog.
 
@@ -22,9 +22,10 @@ Details: [HARDWARE.md](HARDWARE.md) · [techniques/kv-cache.md](techniques/kv-ca
 
 | | |
 |--|--|
-| **[RESULTS.md](RESULTS.md)** | All snapshot tables (pp + tg + MTP + image) |
+| **[RESULTS.md](RESULTS.md)** | All snapshot tables (pp + tg + MTP + image + video) |
 | [models/](models/) | Per-model commands and full benches |
 | [image/](image/) | Bonsai Image 4B |
+| [video/](video/) | MiniMax H3 (video + audio) |
 | [runtimes/](runtimes/) | llama.cpp / ik / tq3 / turboquant / benchy |
 | [techniques/](techniques/) | KV, MoE offload, MTP, power limit |
 | [recipes/](recipes/) | Short copy-paste commands |
@@ -53,6 +54,7 @@ HTML cards (GitHub Pages). Listing: [ajay9o9.github.io/runs-on-a-3060](https://a
 | Ling-3.0-flash | MoE LLM ([AtomicChat Q4_K_M GGUF](https://huggingface.co/AtomicChat/Ling-3.0-flash-GGUF)) | [models/ling-3.0-flash.md](models/ling-3.0-flash.md) |
 | Ornith 1.5 35B-A3B | MoE LLM (Q6_K / Q4_K_M / AD mixed) | [models/ornith-1.5-35b.md](models/ornith-1.5-35b.md) |
 | Bonsai Image 4B | image gen | [image/bonsai-image-4b.md](image/bonsai-image-4b.md) |
+| MiniMax H3 | video + audio gen | [video/minimax-h3.md](video/minimax-h3.md) |
 
 ## Highlights (one line each)
 
@@ -74,6 +76,7 @@ HTML cards (GitHub Pages). Listing: [ajay9o9.github.io/runs-on-a-3060](https://a
 | Ornith 1.5 **Q6_K** 32 GB (ncmoe 28, d112k) | — | ~**27.6** | same |
 | Ternary Bonsai 27B | ~440 @24k | ~**23–25** | [RESULTS](RESULTS.md#other-llm) |
 | Bonsai Image 4B | — | ~10 s / ~6.6 GB | [RESULTS](RESULTS.md#image) |
+| MiniMax H3 480p/10 s **+ audio** | — | ~**6:10–6:47** | [RESULTS](RESULTS.md#video) · [video](video/minimax-h3.md) |
 
 \*Ling first pp4096 cold (~30 t/s); steadier band is pp8k–32k.
 
@@ -121,6 +124,7 @@ export MODEL_DIR=/path/to/ggufs
 | Laguna S-2.1 | large MoE LLM |
 | Ling-3.0-flash | MoE LLM |
 | Ornith 1.5 35B-A3B | MoE LLM |
+| MiniMax H3 | video + audio gen |
 
 ## Contributing / license
 

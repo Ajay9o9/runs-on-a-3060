@@ -170,3 +170,21 @@ Full ncmoe matrices, RSS/VRAM, commands: [models/ornith-1.5-35b.md](models/ornit
 | Bonsai Image 4B ternary | [Bonsai-image-demo](https://github.com/PrismML-Eng/Bonsai-image-demo) | ~9.7 s (~2.4 s/step) | ~6585 MB |
 
 Page: [image/bonsai-image-4b.md](image/bonsai-image-4b.md)
+
+---
+
+## Video
+
+MiniMax H3 — video **and synchronised audio in one pass**. 864×480 · 243 frames ·
+10.125 s · 24 fps · 32 kHz stereo. Turbo LoRA, 4 steps, cfg 1.0.
+
+| Config | Resident VRAM | Wall |
+|--------|--------------:|-----:|
+| Baseline single run | 5 GiB (`cuda:0,5gb;cpu,*`) | **6:47** |
+| 5-clip batch, per-clip avg | same | ~**6:10** |
+
+Weights are 51 GiB total (19.5 GiB DiT + 25.3 GiB text encoder + VAEs) against
+11.6 GiB usable VRAM — the overflow streams from system RAM via DisTorch2, so
+**64 GB RAM is the floor, not VRAM**.
+
+Page: [video/minimax-h3.md](video/minimax-h3.md) · Workflows: [minimax-h3-30series](https://github.com/Ajay9o9/minimax-h3-30series)

@@ -10,7 +10,7 @@ Submit measured runs. Keep tone factual (command + numbers). No essays required.
 4. Runtime name (+ commit/build if known)  
 5. Exact command  
 6. **KV cache: `-ctk` and `-ctv` (or type_k / type_v)** — required for LLM runs  
-7. Results: pp/tg (or image time/steps/resolution), peak VRAM if available  
+7. Results: pp/tg (or image/video wall time, steps, resolution, frames), peak VRAM if available  
 8. Model filename + quant (+ HF link if public)  
 
 LLM results **without** KV types will be marked incomplete or rejected.
@@ -46,7 +46,7 @@ LLM results **without** KV types will be marked incomplete or rejected.
 ## Scope
 
 - Prefer RTX 3060 12GB or other 12GB cards; label other GPUs clearly  
-- Keep LLM vs image paths separate  
+- Keep LLM / image / video paths separate  
 - No secrets, private tokens, or huge binaries  
 
 KV reference: [techniques/kv-cache.md](techniques/kv-cache.md).
